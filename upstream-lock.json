@@ -1,0 +1,6 @@
+{
+  "url": "https://github.com/brownvc/R3GAN.git",
+  "commit": "19a7ddf463fbac2bd39b4c1c73d63f1c441c7403",
+  "backend": "upstream-reference-fp32",
+  "checkpoint_schema": 1
+}

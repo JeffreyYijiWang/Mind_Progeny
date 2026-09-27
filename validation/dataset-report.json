@@ -1,0 +1,20 @@
+{
+  "count": 45,
+  "duplicates": 0,
+  "dataset_id": "3b086ec44583738d88b35edb",
+  "source_sha256": "08d993120444b535192ce871c236196618db2e99c28c166a04d4687a3e33460e",
+  "prepared_zip_sha256": "a24a2b9a3e34b31177dd140ade3d756a6dad35cad907df22c3161d1e4a8de5a4",
+  "recipe": {
+    "alpha_background": [
+      255,
+      255,
+      255
+    ],
+    "crop": "pad",
+    "expected_images": 45,
+    "implementation": "exif-rgb-alpha-resize-lanczos-v1",
+    "pillow": "11.2.1",
+    "resolution": 128
+  },
+  "prepared_path": "workspace/datasets/prepared/3b086ec44583738d88b35edb"
+}

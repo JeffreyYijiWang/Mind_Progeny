@@ -1,0 +1,4 @@
+-r requirements-notebook.txt
+pytest==8.4.0
+nbclient==0.10.2
+

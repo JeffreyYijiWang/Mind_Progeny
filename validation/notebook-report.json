@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "code_cells": 18,
+  "elapsed_seconds": 36.10999999999967,
+  "production_steps_in_test_run": 3,
+  "smoke_iterations": "2 + 1 uninterrupted + 1 resumed",
+  "project": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\test-output\\notebook-20260926-195929",
+  "executed_notebook": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\validation\\NeoHuman_R3GAN_Local.executed.ipynb",
+  "test_overrides": "Isolated output root/ID; start and resume enabled with max_steps 2 and 1; results export enabled. Original delivered notebook remains unmodified."
+}
