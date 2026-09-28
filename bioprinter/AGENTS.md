@@ -34,7 +34,10 @@ top_left=(xmin,ymax), top_right=(xmax,ymax), center=midpoint. SVG export flips f
 without altering Cartesian geometry. Record affine and inverse matrices; no G92 XY.
 Shared-canvas registration is default and requires matching canvas sizes/common scale.
 Per-design bbox is an explicit alternative that can destroy inter-layer registration.
-Machine: X -60..60, Y -125..125, origin center. Q1(+,+), Q2(+,-), Q3(-,-), Q4(-,+).
+User correction (2026-09-28): each quadrant is 4 in X × 5 in Y = 101.6 × 127 mm.
+The centered 2×2 planning bounds are X -101.6..101.6, Y -127..127, before margins.
+This supersedes the original brief; it does not change or verify physical firmware travel.
+Q1(+,+), Q2(+,-), Q3(-,-), Q4(-,+). Layout and slicer bed derive from profile XY bounds.
 Clockwise round robin skips exhausted lists; complete_stack is explicit. Margins reserve
 bead footprints and tool body. No automatic per-image fit-to-plate scaling.
 
@@ -103,9 +106,20 @@ clears selection before deleting raster, rejects raster-only output, removes onl
 defs, and strictly parses resulting geometry. `max_pixels` is an explicit Inkscape-only
 working-copy limit. `archive.py` validates original ZIP header names as well as resolved
 paths (Python normalizes Windows separators). No archive content is executed.
-`test_image_dataset.py` tests separate 40 mm images, not a registered stack. A synthetic
+`test_image_dataset.py` defaults to separate 40 mm images, not a registered stack. A synthetic
 0.8 mm slicer nozzle is only a compatibility fixture, never a claim about the real needle.
 The initial full-resolution parallel attempt exhausted Windows commit memory; retry
 uses one worker and 800 px working copies, with originals/logs preserved. Thin/faint
 features can fail or disappear. A successful external slice does not authorize printing.
 See [0002](docs/decisions/0002-external-app-setup.md) and [setup](docs/application-setup.md).
+
+2026-09-28 report follow-up: the user requested an updated report after correcting the
+quadrant size. Explicit `--fit-quadrant` fits independent comparison images within the
+synthetic 93.6 × 119 mm margin rectangle, preserving aspect ratio and centering actual
+traced bounds in Q1. Tracer curve overshoot triggers a recorded uniform contraction,
+never clipping. This does not enable automatic scaling of registered stack layers.
+`--compare-report` retains the original 40 mm results by source hash; both successful
+and failed new results remain visible. Inkscape gets a unique `--app-id-tag` per trace
+and must produce its expected new SVG. Parallel CLI work must not share app instances.
+Current report: `validation/dataset-runs/45-image-integration/quadrant-4x5in-verified/report.html`.
+Exact validation, counts and remaining failures: VALIDATION.md and [0004](docs/decisions/0004-quadrant-image-report.md).

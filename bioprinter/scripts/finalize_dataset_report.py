@@ -41,6 +41,14 @@ def main():
     failures=[{'index':r['index'],'input':r['input'],'stage':r['stage'],'error':r.get('error')}
               for r in results if r['status']!='passed']
     summary={k:v for k,v in refreshed.items() if k!='results'}
+    comparison=summary.get('comparison') or {}
+    if comparison:
+        prior=comparison['results']
+        summary['comparison']={k:v for k,v in comparison.items() if k!='results'}
+        summary['comparison']['newly_generated']=[r['input'] for r in results if r['status']=='passed'
+            and prior.get(r['sha256'],{}).get('status')!='passed']
+        summary['comparison']['newly_stopped']=[r['input'] for r in results if r['status']!='passed'
+            and prior.get(r['sha256'],{}).get('status')=='passed']
     summary.update(report=str((args.run/'report.html').resolve()),
         failure_stages=dict(Counter(r['stage'] for r in failures)),failures=failures,
         passed_with_missing_islands=sum(r.get('islands_without_paths',0)>0 for r in results),

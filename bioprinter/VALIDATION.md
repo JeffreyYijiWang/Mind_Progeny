@@ -113,3 +113,66 @@ Successful CLI execution can still lose thin details/islands. These independentl
 images are not registered stack layers or approved printer jobs. No GUI interaction,
 macOS/Linux runtime, physical printer, actual needle calibration or liquid behavior was
 tested. Existing hardware/queue restrictions above remain in force.
+
+## Quadrant dimension correction
+
+2026-09-28: user specified 4 in X × 5 in Y per quadrant. Profiles/schema now use
+X ±101.6 and Y ±127 mm; layout and PrusaSlicer bed derive from the active profile.
+New checks cover all four quadrant sizes, a 90 × 110 mm placement, margin/oversize
+rejection, custom-profile bounds and exported slicer bed coordinates.
+
+`pytest -q --junitxml=validation/pytest-quadrant-dimensions.xml` passed **97 tests**;
+the notebook subprocess failed on Windows committed-memory exhaustion (a 1.57 MiB
+allocation failed). The notebook was then run separately using
+`OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1` in that process environment:
+`python -X utf8 scripts/execute_notebook.py` successfully executed and saved all
+**11 code cells** with external HTTP disabled. No system memory settings were changed.
+`git diff --check` passed. Historical dataset/example artifacts were not rescaled or
+rewritten; the 45-image report still describes its original 40 mm-wide test images.
+
+## Updated quadrant image report
+
+2026-09-28 UTC: reran all **45 images** with explicit independent aspect-preserving
+fits inside each 4 × 5 inch quadrant. Synthetic 4 mm margins leave **93.6 × 119 mm**;
+actual traced geometry is centered in Q1. Same native application versions and
+800 px / threshold 128 / median 3 / 0.01 mm² / 0.05 mm preprocessing settings as
+the 40 mm baseline. Slicing remains one 0.5 mm layer, invented 0.8 mm nozzle,
+nominal 1 mm bead, one perimeter and 20% infill. Exact commands are in each image
+folder under `validation/dataset-runs/45-image-integration/quadrant-4x5in-verified/`.
+
+Results: **44 native traces**, **40 generated and parsed toolpaths**, **5 stopped**.
+Images 1 and 13 produced empty slices; image 12 became blank after preprocessing;
+images 26 and 41 failed the watertight mesh check. Compared with the 37/45 baseline,
+images 11, 15, 16 and 23 now generated paths, while image 26 newly failed the mesh
+check. All failures remain visible, including the new failure. 37/40 generated
+results have missing islands (7,455 total). More geometry survives the fixed area
+threshold at the larger scale, so island counts alone are not a direct measure of
+improved fidelity. Uncovered area also includes intentional 20% infill gaps.
+
+The updated HTML shows original images, quadrant/margin previews, physical sizes,
+per-image baseline comparisons and filters for stopped/generated/coverage flags.
+The unchanged baseline JSON is hash-verified; its old HTML is preserved as
+`native-800px/report-40mm.html`. The original `native-800px/report.html` entry point
+now forwards to the updated report. Summaries: `validation/dataset-45-summary.json`
+(baseline) and `validation/dataset-45-quadrant-summary.json` (updated).
+
+An initial parallel invocation returned without a new SVG; unique Inkscape
+`--app-id-tag` values now isolate native traces and missing output fails explicitly.
+Another trace extended slightly beyond its image canvas: image 2 was retried with
+a recorded uniform factor of 0.9996804074, without clipping. Interrupted attempts
+were retained. Completed results were reused after hash/order/settings checks.
+The final run used two workers and process-local `OPENBLAS_NUM_THREADS=1` and
+`OMP_NUM_THREADS=1`; no system settings or unrelated processes were changed.
+
+Verification:
+
+- `python -X utf8 -m pytest tests/test_dataset_report.py tests/test_quadrant_dimensions.py tests/test_external_contracts.py tests/test_geometry.py -q --junitxml=validation/pytest-report-update.xml`:
+  **33 passed**. Covers aspect-preserving fit, actual tracer overshoot, all quadrant
+  dimensions, native instance isolation, geometry and report content/link escaping.
+- All 45 original source hashes and unchanged baseline JSON hash verified; all 44
+  traced bounds fit the margin rectangle. HTML contains 45 cards, 85 image assets
+  and 256 existing local references. Audit: `validation/dataset-45-quadrant-audit.json`.
+- Generated contact sheet and a full-size quadrant preview inspected directly.
+  Browser automation rejected the local `file:` URL, so rendered HTML layout and
+  filter clicks were not GUI-tested; no alternate browser access was attempted.
+- `git diff --check` passed. No printer contact or physical printability test.

@@ -70,7 +70,9 @@ def prusa_slice(mesh, output, profile, nozzle_diameter_mm, *, perimeters=1, dens
         "min_fan_speed":0,"max_fan_speed":0,"bridge_fan_speed":0,"start_gcode":"",
         "end_gcode":"","before_layer_gcode":"","layer_gcode":"","toolchange_gcode":"",
         "binary_gcode":0,"use_relative_e_distances":0,"gcode_comments":1,
-        "machine_limits_usage":"time_estimate_only","bed_shape":"-60x-125,60x-125,60x125,-60x125"}
+        "machine_limits_usage":"time_estimate_only",
+        "bed_shape":','.join(f'{x:g}x{y:g}' for x,y in [(profile.x_min,profile.y_min),
+            (profile.x_max,profile.y_min),(profile.x_max,profile.y_max),(profile.x_min,profile.y_max)])}
     cfg=output.with_suffix('.ini');cfg.write_text('\n'.join(f"{k} = {v}" for k,v in config.items())+'\n',encoding='utf-8')
     args=[cap["executable"],"--load",str(cfg.resolve()),"--dont-arrange","--export-gcode","--output",str(output.resolve()),str(Path(mesh).resolve())]
     output.with_suffix('.command.json').write_text(json.dumps({"argv":args,"probe":cap,"config":config},indent=2),encoding="utf-8")

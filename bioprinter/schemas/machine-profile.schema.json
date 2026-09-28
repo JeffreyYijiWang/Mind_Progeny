@@ -181,22 +181,22 @@
       "title": "Needle Standoff Mm"
     },
     "x_min": {
-      "default": -60,
+      "default": -101.6,
       "title": "X Min",
       "type": "number"
     },
     "x_max": {
-      "default": 60,
+      "default": 101.6,
       "title": "X Max",
       "type": "number"
     },
     "y_min": {
-      "default": -125,
+      "default": -127,
       "title": "Y Min",
       "type": "number"
     },
     "y_max": {
-      "default": 125,
+      "default": 127,
       "title": "Y Max",
       "type": "number"
     },

@@ -5,6 +5,10 @@ It traces real vector geometry, preserves holes, creates meshes and toolpaths,
 composes overlap-aware or planar stacks in four quadrants, and exports audited
 G-code, motion previews, display timelines and optional MOV video.
 
+Each quadrant has **4 in X × 5 in Y** available (101.6 × 127 mm). The centered 2×2
+planning area is **8 × 10 in** (203.2 × 254 mm), before the configured edge/tool margins.
+Both placement and the PrusaSlicer bed use the profile's XY bounds.
+
 **The included profile and example jobs are synthetic previews.** The actual bore,
 barrel, calibration, Z limits, holder envelope and motion limits have not been measured.
 The demo deliberately includes uneven support and reports those regions. Production
@@ -48,6 +52,12 @@ without `-Install`), setup only reports a plan. It uses WinGet on Windows, Homeb
 casks on macOS, and existing Flatpak or a supported distro package manager on Linux.
 See [application setup and dataset tests](docs/application-setup.md) for prerequisites,
 logs, executable registration, and the delivered 45-image report.
+
+The updated [45-image comparison report](validation/dataset-runs/45-image-integration/quadrant-4x5in-verified/report.html)
+fits each independent image into one 4 × 5 inch quadrant, preserving aspect ratio.
+The synthetic 4 mm margins leave **93.6 × 119 mm**. Cards compare original images,
+actual toolpaths and the earlier 40 mm test, with filters for failures and detail loss.
+This explicit diagnostic fit does not change stack-layer registration.
 
 ## Your own inputs
 

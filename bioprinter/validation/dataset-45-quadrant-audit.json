@@ -1,0 +1,19 @@
+{
+  "checked_utc": "2026-09-28T04:38:44.775199+00:00",
+  "source_hashes_verified": 45,
+  "trace_bounds_verified": 44,
+  "report_cards": 45,
+  "report_images": 85,
+  "local_references_verified": 256,
+  "filter_states": {
+    "failed": 5,
+    "review": 38,
+    "generated": 2
+  },
+  "baseline_json_hash_unchanged": true,
+  "baseline_html_archive_sha256": "a26ac82d8696a2dc3eefd728138e14edd2a111fb131516155db8886dcbf25258",
+  "report_html_sha256": "b443d4d67b53283d6d529a4c28e3ea6c5d9ef9f72034e1596b33885268fe9781",
+  "report_json_sha256": "7af96a8244385db1dc42f5bb16dbeb16c94a3997225d54cd5ae7459a04e1cd70",
+  "gui_verification": "Not performed: browser automation blocks file URLs. HTML references and rendered image assets checked directly.",
+  "printer_contacted": false
+}

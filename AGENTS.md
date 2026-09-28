@@ -12,6 +12,9 @@ training environment. No notebook, demo, test or doctor command may contact a pr
   Printable geometry bounds include expanded strokes and exclude page/invisible objects.
   `local = normalized - anchor`; machine placement is a separate affine transform.
   Clockwise quadrants are Q1 top-right, Q2 bottom-right, Q3 bottom-left, Q4 top-left.
+  User correction: each quadrant is 4 in X × 5 in Y (101.6 × 127 mm), so centered
+  2×2 planning bounds are X ±101.6 and Y ±127 mm before configured margins.
+  These supersede the original brief's dimensions; firmware travel remains unverified.
 - The supplied specification states: original “23 mm gauge” means **23 gauge**;
   “1/2 inch” means **needle length**, 12.7 mm, not diameter. These two fields are confirmed
   per that specification. Bore, OD, barrel, mounting, speed, Z and calibration remain

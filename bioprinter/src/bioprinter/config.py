@@ -29,10 +29,11 @@ class Profile(BaseModel):
     first_deposition_tip_height_mm: float | None = None
     substrate_z_mm: float | None = None
     needle_standoff_mm: float | None = None
-    x_min: float = -60
-    x_max: float = 60
-    y_min: float = -125
-    y_max: float = 125
+    # User-specified 4 in X by 5 in Y per quadrant, tiled 2 x 2 around XY zero.
+    x_min: float = -101.6
+    x_max: float = 101.6
+    y_min: float = -127
+    y_max: float = 127
     z_min: float | None = None
     z_max: float | None = None
     holder_radius_mm: float | None = None

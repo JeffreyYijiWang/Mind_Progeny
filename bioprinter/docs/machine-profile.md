@@ -5,7 +5,10 @@
 The latter can never authorize upload/start, even with confirmation flags added.
 The generated JSON Schema is `schemas/machine-profile.schema.json`.
 
-Coordinates are mm. Machine XY is centered: X −60..60, Y −125..125. SVG Y-down is
+The user specified **4 in X × 5 in Y per quadrant** on 2026-09-28. Each quadrant is
+**101.6 × 127 mm**; the centered 2×2 planning area is **203.2 × 254 mm** (8 × 10 in),
+before configured margins. This supersedes the older dimensions in the original brief.
+Coordinates are mm. Planned XY bounds are X −101.6..101.6, Y −127..127. SVG Y-down is
 flipped once into Cartesian Y-up. Printable bounds come from visible fill and expanded
 strokes, not page bounds. The local anchor is subtracted before a separate placement
 translation. No G92 X/Y is emitted and existing firmware offsets are not applied twice.
@@ -28,13 +31,15 @@ matrices when needed; no stack layer is silently resized to fill its quadrant.
 
 | ID | Position | X mm | Y mm |
 |---|---|---|---|
-| Q1 | top-right | 0..60 | 0..125 |
-| Q2 | bottom-right | 0..60 | −125..0 |
-| Q3 | bottom-left | −60..0 | −125..0 |
-| Q4 | top-left | −60..0 | 0..125 |
+| Q1 | top-right | 0..101.6 | 0..127 |
+| Q2 | bottom-right | 0..101.6 | −127..0 |
+| Q3 | bottom-left | −101.6..0 | −127..0 |
+| Q4 | top-left | −101.6..0 | 0..127 |
 
 The larger of edge margin, centerline margin and holder radius reserves space in each
-quadrant. Bead capsules must fit within the reserved region. Tool bodies must fit machine
+quadrant. The synthetic 4 mm margins leave a 93.6 × 119 mm reserved design area.
+Physical machine travel still requires setup review; these values do not change firmware.
+Bead capsules must fit within the reserved region. Tool bodies must fit machine
 limits. Whole-plate collisions include deposits from every quadrant. Oversize designs
 fail rather than distorting. The Python `quadrant_order` option allows a different
 permutation; CLI default remains Q1→Q2→Q3→Q4.

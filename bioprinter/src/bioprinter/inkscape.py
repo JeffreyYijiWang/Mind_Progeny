@@ -5,6 +5,7 @@ No raster fallback is returned and arbitrary SVG sanitization is not performed.
 """
 import base64
 import json
+import uuid
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from xml.etree import ElementTree as XML
@@ -59,13 +60,16 @@ def trace_bitmap(path, width_mm, *, threshold=128, invert=False, denoise=0,
         f'<image id="raster" width="{gray.width}" height="{gray.height}" '
         f'xlink:href="data:image/png;base64,{encoded}"/></svg>',encoding='utf-8')
     actions='select-by-id:raster;object-trace:2,false,true,true,0,1.0,0.2;select-clear;select-by-id:raster;delete;export-do'
-    argv=[cap['executable'],str(source.resolve()),'--batch-process','--actions='+actions,
+    # Native actions use GUI infrastructure even in batch mode. A unique app ID
+    # keeps concurrent traces from forwarding work to another running instance.
+    argv=[cap['executable'],'--app-id-tag=bioprinter'+uuid.uuid4().hex,str(source.resolve()),'--batch-process','--actions='+actions,
           '--export-plain-svg','--export-type=svg','--export-filename='+str(raw.resolve())]
     (folder/'command.json').write_text(json.dumps({'argv':argv,'version':cap['version']},indent=2),encoding='utf-8')
     try: log=run(argv,300)
     except Exception as exc:
         (folder/'inkscape.log').write_text(str(exc),encoding='utf-8');raise
     (folder/'inkscape.log').write_text(log,encoding='utf-8')
+    if not raw.is_file(): raise ValueError('Inkscape returned without a new SVG output; see inkscape.log')
     root=SafeXML.parse(raw).getroot()
     for child in list(root):
         if child.tag.split('}')[-1]=='defs' and len(child)==0: root.remove(child)

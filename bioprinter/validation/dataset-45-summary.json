@@ -14,7 +14,7 @@
   "trace_passed": 44,
   "prusa_passed": 37,
   "passed": 37,
-  "report": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\45-image-integration\\native-800px\\report.html",
+  "report": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\45-image-integration\\native-800px\\report-40mm.html",
   "failure_stages": {
     "prusa": 5,
     "inkscape": 1,

@@ -80,7 +80,7 @@ then watertight STL export, actual PrusaSlicer execution, strict G-code parsing 
 synthetic volume conversion. Exact SVG, mesh, INI, commands, logs and per-image JSON
 remain in each numbered folder. Raw G-code is **not a printer-ready syringe job**.
 
-The delivered run is `validation/dataset-runs/45-image-integration/native-800px/report.html`.
+The original baseline is `validation/dataset-runs/45-image-integration/native-800px/report-40mm.html`.
 It tests each image independently at 40 mm canvas width, 0.5 mm layer height, synthetic
 0.8 mm slicer nozzle, nominal 1 mm bead, one perimeter and 20% infill. Working copies
 are limited to 800 pixels on the longest side, then median-filtered (3), thresholded
@@ -101,6 +101,31 @@ resume a printer, compose a production job or authorize reuse of a physical chec
 For a completed batch, generate original-image thumbnails, a result contact sheet and a
 compact summary with `scripts/finalize_dataset_report.py RUN --inventory INVENTORY.json
 --summary SUMMARY.json`. The delivered compact result is `validation/dataset-45-summary.json`.
+
+## Updated 4 × 5 inch quadrant report
+
+Open [the quadrant comparison report](../validation/dataset-runs/45-image-integration/quadrant-4x5in-verified/report.html).
+Each image independently fits the 93.6 × 119 mm rectangle left by synthetic 4 mm margins.
+Aspect ratio is preserved; actual traced bounds are centered in Q1. Tracer overshoot
+is handled by a recorded uniform contraction without clipping. This report-only fit
+does not alter registered stack-layer behavior. Both improved and failed results are
+compared against the unchanged 40 mm baseline; detail-loss filters expose the limits
+of generated paths. The original report URL forwards to this updated view.
+
+To repeat in a fresh output folder:
+
+```powershell
+$env:OPENBLAS_NUM_THREADS='1'
+$env:OMP_NUM_THREADS='1'
+.\.venv\Scripts\python.exe -X utf8 scripts/test_image_dataset.py validation/dataset-runs/45-image-integration/inputs --output validation/dataset-runs/new-quadrant-report --fit-quadrant --workers 2 --compare-report validation/dataset-runs/45-image-integration/native-800px/report.json
+.\.venv\Scripts\python.exe -X utf8 scripts/finalize_dataset_report.py validation/dataset-runs/new-quadrant-report --inventory validation/dataset-runs/45-image-integration/image_inventory.json --summary validation/new-quadrant-summary.json
+```
+
+Each native trace gets a distinct Inkscape application ID and must create its expected
+SVG. Use one worker if memory is constrained. `--resume-tests --retry-index NUMBER`
+can repeat a selected completed diagnostic result in a new attempt folder, preserving
+the previous result. The updated compact summary is
+`validation/dataset-45-quadrant-summary.json`; exact counts and checks are in VALIDATION.md.
 
 Inkscape action semantics were checked against its
 [official implementation](https://gitlab.com/inkscape/inkscape/-/blob/INKSCAPE_1_4_3/src/actions/actions-object.cpp).

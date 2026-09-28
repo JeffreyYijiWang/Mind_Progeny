@@ -27,7 +27,7 @@ def test_schedule_skips_and_oversized(profile):
     seq={'Q1':['a','b'],'Q2':[],'Q3':['c'],'Q4':['d']}
     assert [q for q,i,a in schedule(seq)]==['Q1','Q3','Q4','Q1']
     assert [q for q,i,a in schedule(seq,'complete_stack')]==['Q1','Q1','Q3','Q4']
-    with pytest.raises(ValueError,match='do not fit'):placement((0,0,70,20),'Q1',profile)
+    with pytest.raises(ValueError,match='do not fit'):placement((0,0,110,20),'Q1',profile)
 
 
 def test_overlap_is_local_and_footprints_not_rectangle(profile):
@@ -52,7 +52,7 @@ def test_holder_valley_needle_and_z_collision(profile):
     with pytest.raises(CollisionError,match='Needle'):field.check_pose((10,10),(10,10),1)
     with pytest.raises(CollisionError,match='Holder'):field.check_pose((11.5,10),(11.5,10),1)
     with pytest.raises(CollisionError,match='Z'):field.check_pose((0,0),(0,0),101)
-    with pytest.raises(CollisionError,match='XY'):field.check_pose((60,0),(60,0),30)
+    with pytest.raises(CollisionError,match='XY'):field.check_pose((profile.x_max,0),(profile.x_max,0),30)
 
 
 def test_kinematics_independently_known(profile):

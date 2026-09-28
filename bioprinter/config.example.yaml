@@ -18,10 +18,10 @@ deposition_height_mm: 0.5
 first_deposition_tip_height_mm: null
 substrate_z_mm: null
 needle_standoff_mm: null
-x_min: -60.0
-x_max: 60.0
-y_min: -125.0
-y_max: 125.0
+x_min: -101.6
+x_max: 101.6
+y_min: -127.0
+y_max: 127.0
 z_min: null
 z_max: null
 holder_radius_mm: null

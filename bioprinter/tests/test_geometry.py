@@ -86,5 +86,5 @@ def test_pixel_units_require_scale_and_round_trip(tmp_path):
 
 
 def test_inkscape_request_never_silently_uses_python(inputs,monkeypatch):
-    monkeypatch.setattr('bioprinter.external.probe',lambda name:{'available':False})
+    monkeypatch.setattr('bioprinter.inkscape.probe',lambda name:{'available':False})
     with pytest.raises(ValueError,match='manual round-trip'):vectorize(inputs/'image1_ring.png',24,backend='inkscape')
