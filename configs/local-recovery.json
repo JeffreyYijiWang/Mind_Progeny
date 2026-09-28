@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "experiment_id": "neohuman-local-002",
+  "seed": 2026,
+  "dataset": {
+    "expected_images": 45,
+    "resolution": 128,
+    "crop": "pad",
+    "alpha_background": [
+      255,
+      255,
+      255
+    ]
+  },
+  "model": {
+    "noise_dim": 64,
+    "widths": [
+      128,
+      128,
+      128,
+      96,
+      64,
+      32
+    ],
+    "blocks": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "cardinalities": [
+      8,
+      8,
+      8,
+      8,
+      4,
+      4
+    ],
+    "expansion": 2
+  },
+  "training": {
+    "batch_size": 8,
+    "microbatch": 2,
+    "lr": 0.0001,
+    "beta2": 0.9,
+    "gamma": 1.0,
+    "ema_nimg": 1000,
+    "mirror": true,
+    "augment_probability": 0.2,
+    "deterministic": true
+  },
+  "schedule": {
+    "budget_seconds": 28800,
+    "sample_seconds": 600,
+    "recovery_seconds": 120,
+    "milestone_seconds": 3600,
+    "log_seconds": 60,
+    "keep_recovery": 4
+  },
+  "preview": {
+    "count": 16,
+    "seed": 12345
+  }
+}

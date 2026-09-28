@@ -91,6 +91,20 @@ Interrupt once and wait for the cell to return. SIGINT/SIGTERM normally defer st
 
 On reconnect use the clearly labeled **Resume latest verified checkpoint** cell after setup, data preparation (or import), and smoke test. It verifies the checkpoint again before loading and restores cumulative training time. A saved three-hour run has about five hours remaining. It restores G, D, EMA, both Adam states, step/nimg counters, event thresholds, Python/NumPy/Torch CPU and selected CUDA RNG state, permutation/cursor/epoch/sampler RNG, and fixed preview noise. This is full state for this single-GPU implementation. It does not claim bitwise equality across different GPU models, drivers, OS, CUDA/PyTorch builds, or Python runtimes.
 
+### Running the local notebook from a terminal
+
+After local setup, this launcher executes a separate copy of the actual notebook, including its GPU smoke test. It chooses start or resume from the saved experiment state and records progress under the specified session directory:
+
+```powershell
+.\.venv\Scripts\python.exe -u scripts/run_local_notebook.py --config configs/local-recovery.json --session-dir workspace/sessions/my-training-session
+```
+
+`configs/local-recovery.json` uses experiment `neohuman-local-002` and recovery saves every **two active training minutes**; the eight-hour budget, ten-minute previews and hourly milestones are unchanged. Reuse the exact saved configuration when resuming. Use a fresh session directory for each launch. Do not start a second writer for the same experiment.
+
+Read `training.stdout.log` when output is redirected there, or the launcher's terminal output, for increasing steps. The session's `status.json` records the current cell and `memory.json` records Windows memory headroom. The executed notebook snapshot updates between cells; during the long training cell, use the log and experiment checkpoint manifest for current progress.
+
+On Windows, the launcher checks available committed memory before loading the kernel. A background check requests the trainer's existing safe stop when headroom falls below 2 GiB. This is a best-effort precaution, not a guarantee against a sudden allocation failure. Display-save failures are reported without terminating the training kernel. If `memory_stop.json` appears, inspect the latest checkpoint and free memory before resuming. A `STOP` file deliberately blocks automatic restart; remove that specific file only after verifying the previous writer has exited and intending to resume. No launcher changes Windows virtual-memory or power settings.
+
 ## Persistence and retention
 
 Each filename includes experiment ID, step and cumulative seconds. Atomic local writes use a temporary file, flush/fsync and rename. Completed checkpoints are copied to a temporary destination, hashed, renamed and read back. Only after that succeeds is an immutable checksummed manifest journal published, then the current pointer. Resume can recover from an interrupted pointer update and skips damaged checkpoints with a visible warning. SHA-256 verifies integrity, not authenticity; import only bundles you trust.

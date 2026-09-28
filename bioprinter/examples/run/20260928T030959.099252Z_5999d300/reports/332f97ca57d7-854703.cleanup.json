@@ -1,0 +1,20 @@
+{
+  "actions": [
+    {
+      "line": 2,
+      "command": "G21",
+      "action": "normalized"
+    },
+    {
+      "line": 3,
+      "command": "G90",
+      "action": "normalized"
+    },
+    {
+      "line": 4,
+      "command": "M82",
+      "action": "normalized"
+    }
+  ],
+  "volume_mm3": 29.850000000018962
+}

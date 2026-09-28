@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest==8.4.1
+nbformat==5.10.4
+nbclient==0.10.2
+ipykernel==6.30.1
+ipywidgets==8.1.7
+jupyterlab==4.4.6

@@ -1,0 +1,27 @@
+{
+  "order": [
+    "image1_ring.png",
+    "image2_asymmetric_L.png",
+    "image10_bridge_island.png"
+  ],
+  "sequences": {
+    "Q1": [
+      "image1_ring.png",
+      "image2_asymmetric_L.png",
+      "image10_bridge_island.png"
+    ],
+    "Q2": [
+      "image2_asymmetric_L.png"
+    ],
+    "Q3": [],
+    "Q4": [
+      "image10_bridge_island.png"
+    ]
+  },
+  "per_image": {
+    "image1_ring.png": {
+      "threshold": 128,
+      "simplify_mm": 0.05
+    }
+  }
+}

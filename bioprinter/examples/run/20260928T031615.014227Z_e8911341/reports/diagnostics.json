@@ -1,0 +1,58 @@
+[
+  {
+    "event": "event-0005",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 103,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  },
+  {
+    "event": "event-0006",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 103,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  },
+  {
+    "event": "event-0007",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 103,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  },
+  {
+    "event": "event-0008",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 103,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  },
+  {
+    "event": "event-0009",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 78,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  },
+  {
+    "event": "event-0010",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 78,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  },
+  {
+    "event": "event-0011",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 78,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  },
+  {
+    "event": "event-0012",
+    "severity": "production-blocking",
+    "issue": "partially supported/variable-height footprint",
+    "sample_count": 78,
+    "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+  }
+]

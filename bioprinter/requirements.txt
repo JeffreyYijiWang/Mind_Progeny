@@ -1,0 +1,2 @@
+# Direct pins; locks/windows-py311.txt records the tested complete environment.
+-e .

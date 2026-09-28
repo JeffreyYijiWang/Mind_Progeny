@@ -1,0 +1,230 @@
+[
+  {
+    "start": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "end": [
+      4.5,
+      18.5,
+      0.5
+    ],
+    "e_delta": 0.0,
+    "feed": 1800.0,
+    "dwell": 0,
+    "kind": "travel",
+    "source_line": 5,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      4.5,
+      18.5,
+      0.5
+    ],
+    "end": [
+      7.6,
+      18.5,
+      0.5
+    ],
+    "e_delta": 0.015499999999542489,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 6,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      7.6,
+      18.5,
+      0.5
+    ],
+    "end": [
+      7.6,
+      7.89289322,
+      0.5
+    ],
+    "e_delta": 0.05303553390726705,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 7,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      7.6,
+      7.89289322,
+      0.5
+    ],
+    "end": [
+      7.99289322,
+      7.5,
+      0.5
+    ],
+    "e_delta": 0.0027781745910474115,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 8,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      7.99289322,
+      7.5,
+      0.5
+    ],
+    "end": [
+      20.6,
+      7.5,
+      0.5
+    ],
+    "e_delta": 0.06303553390782539,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 9,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      20.6,
+      7.5,
+      0.5
+    ],
+    "end": [
+      20.6,
+      4.0,
+      0.5
+    ],
+    "e_delta": 0.017499999999173087,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 10,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      20.6,
+      4.0,
+      0.5
+    ],
+    "end": [
+      4.5,
+      4.0,
+      0.5
+    ],
+    "e_delta": 0.08049999999956364,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 11,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      4.5,
+      4.0,
+      0.5
+    ],
+    "end": [
+      4.5,
+      18.5,
+      0.5
+    ],
+    "e_delta": 0.0725000000010412,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 12,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      4.5,
+      18.5,
+      0.5
+    ],
+    "end": [
+      5.5,
+      6.66666667,
+      0.5
+    ],
+    "e_delta": 0.0,
+    "feed": 1800.0,
+    "dwell": 0,
+    "kind": "travel",
+    "source_line": 13,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      5.5,
+      6.66666667,
+      0.5
+    ],
+    "end": [
+      7.41201299,
+      6.66666667,
+      0.5
+    ],
+    "e_delta": 0.009560064947387285,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 14,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      7.41201299,
+      6.66666667,
+      0.5
+    ],
+    "end": [
+      6.6,
+      13.33333333,
+      0.5
+    ],
+    "e_delta": 0.0,
+    "feed": 1800.0,
+    "dwell": 0,
+    "kind": "travel",
+    "source_line": 15,
+    "event": "",
+    "source": ""
+  },
+  {
+    "start": [
+      6.6,
+      13.33333333,
+      0.5
+    ],
+    "end": [
+      5.5,
+      13.33333333,
+      0.5
+    ],
+    "e_delta": 0.005500000001389472,
+    "feed": 480.0,
+    "dwell": 0,
+    "kind": "deposit",
+    "source_line": 16,
+    "event": "",
+    "source": ""
+  }
+]

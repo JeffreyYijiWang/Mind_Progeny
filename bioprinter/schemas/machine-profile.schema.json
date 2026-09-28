@@ -1,0 +1,454 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "default": "unmeasured-duet2",
+      "title": "Name",
+      "type": "string"
+    },
+    "synthetic": {
+      "default": false,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "needle_gauge": {
+      "default": 23,
+      "exclusiveMinimum": 0,
+      "title": "Needle Gauge",
+      "type": "integer"
+    },
+    "needle_length_mm": {
+      "default": 12.7,
+      "exclusiveMinimum": 0,
+      "title": "Needle Length Mm",
+      "type": "number"
+    },
+    "needle_gauge_confirmed": {
+      "default": true,
+      "title": "Needle Gauge Confirmed",
+      "type": "boolean"
+    },
+    "needle_length_confirmed": {
+      "default": true,
+      "title": "Needle Length Confirmed",
+      "type": "boolean"
+    },
+    "needle_inner_diameter_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Needle Inner Diameter Mm"
+    },
+    "needle_outer_diameter_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Needle Outer Diameter Mm"
+    },
+    "syringe_barrel_inner_diameter_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Syringe Barrel Inner Diameter Mm"
+    },
+    "plunger_stroke_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Plunger Stroke Mm"
+    },
+    "mm3_per_e_unit": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Mm3 Per E Unit"
+    },
+    "plunger_mm_per_e_unit": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Plunger Mm Per E Unit"
+    },
+    "positive_extrusion_direction": {
+      "default": 1,
+      "enum": [
+        -1,
+        1
+      ],
+      "title": "Positive Extrusion Direction",
+      "type": "integer"
+    },
+    "capacity_mm3": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Capacity Mm3"
+    },
+    "bead_width_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bead Width Mm"
+    },
+    "deposition_height_mm": {
+      "default": 0.5,
+      "exclusiveMinimum": 0,
+      "title": "Deposition Height Mm",
+      "type": "number"
+    },
+    "first_deposition_tip_height_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "First Deposition Tip Height Mm"
+    },
+    "substrate_z_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Substrate Z Mm"
+    },
+    "needle_standoff_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Needle Standoff Mm"
+    },
+    "x_min": {
+      "default": -60,
+      "title": "X Min",
+      "type": "number"
+    },
+    "x_max": {
+      "default": 60,
+      "title": "X Max",
+      "type": "number"
+    },
+    "y_min": {
+      "default": -125,
+      "title": "Y Min",
+      "type": "number"
+    },
+    "y_max": {
+      "default": 125,
+      "title": "Y Max",
+      "type": "number"
+    },
+    "z_min": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Z Min"
+    },
+    "z_max": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Z Max"
+    },
+    "holder_radius_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Holder Radius Mm"
+    },
+    "holder_bottom_above_tip_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Holder Bottom Above Tip Mm"
+    },
+    "travel_clearance_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Travel Clearance Mm"
+    },
+    "edge_margin_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Edge Margin Mm"
+    },
+    "centerline_margin_mm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Centerline Margin Mm"
+    },
+    "xy_speed_mm_s": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Xy Speed Mm S"
+    },
+    "z_speed_mm_s": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Z Speed Mm S"
+    },
+    "e_speed_units_s": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "E Speed Units S"
+    },
+    "xy_accel_mm_s2": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Xy Accel Mm S2"
+    },
+    "z_accel_mm_s2": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Z Accel Mm S2"
+    },
+    "e_accel_units_s2": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "E Accel Units S2"
+    },
+    "deposition_speed_mm_s": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Deposition Speed Mm S"
+    },
+    "grid_mm": {
+      "default": 0.5,
+      "exclusiveMinimum": 0,
+      "title": "Grid Mm",
+      "type": "number"
+    },
+    "sample_mm": {
+      "default": 0.5,
+      "exclusiveMinimum": 0,
+      "title": "Sample Mm",
+      "type": "number"
+    },
+    "spread_factor": {
+      "default": 1.0,
+      "exclusiveMinimum": 0,
+      "title": "Spread Factor",
+      "type": "number"
+    },
+    "slicer_filament_diameter_mm": {
+      "default": 1.75,
+      "exclusiveMinimum": 0,
+      "title": "Slicer Filament Diameter Mm",
+      "type": "number"
+    },
+    "slicer_e_mode": {
+      "default": "filament_mm",
+      "enum": [
+        "filament_mm",
+        "mm3"
+      ],
+      "title": "Slicer E Mode",
+      "type": "string"
+    },
+    "firmware_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Firmware Version"
+    },
+    "firmware_tool_number": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Firmware Tool Number"
+    },
+    "cold_extrusion_reviewed": {
+      "default": false,
+      "title": "Cold Extrusion Reviewed",
+      "type": "boolean"
+    },
+    "machine_setup_reviewed": {
+      "default": false,
+      "title": "Machine Setup Reviewed",
+      "type": "boolean"
+    },
+    "confirmed_fields": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Confirmed Fields",
+      "type": "array"
+    },
+    "duet_url": {
+      "default": "http://hans.local",
+      "title": "Duet Url",
+      "type": "string"
+    }
+  },
+  "title": "Profile",
+  "type": "object"
+}

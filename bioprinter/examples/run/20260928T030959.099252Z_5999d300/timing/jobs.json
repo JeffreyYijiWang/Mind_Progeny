@@ -1,0 +1,378 @@
+{
+  "schema_version": "1.0",
+  "jobs": [
+    {
+      "job_id": "job-0001",
+      "path": "jobs/0001_job-0001.gcode",
+      "sha256": "ebd37d99a1944615b3428a1f99d940f2fbcffa4b1b8743ab6ce18ca07ddcc1ce",
+      "type": "standalone",
+      "predecessor_id": null,
+      "start_xyz": [
+        0.0,
+        0.0,
+        2.0
+      ],
+      "end_xyz": [
+        36.55,
+        63.283333330000005,
+        2.5
+      ],
+      "used_before_mm3": 0,
+      "used_after_mm3": 58.48969696187653,
+      "remaining_capacity_mm3": 19941.510303038125,
+      "height_checkpoint": null,
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0001",
+      "line_start": 6,
+      "line_end": 264,
+      "byte_start": 129,
+      "byte_end": 15464
+    },
+    {
+      "job_id": "job-0002",
+      "path": "jobs/0002_job-0002.gcode",
+      "sha256": "3227bd4f5df769bc4cf6e5e22b127cd7c213c940191959c7877e8e565d9a1a57",
+      "type": "continuation",
+      "predecessor_id": "job-0001",
+      "start_xyz": [
+        36.55,
+        63.283333330000005,
+        2.5
+      ],
+      "end_xyz": [
+        36.55,
+        -61.716666669999995,
+        2.5
+      ],
+      "used_before_mm3": 58.48969696187653,
+      "used_after_mm3": 116.97939392375359,
+      "remaining_capacity_mm3": 19883.020606076247,
+      "height_checkpoint": "checkpoints/0001_event-0001.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0002",
+      "line_start": 6,
+      "line_end": 264,
+      "byte_start": 129,
+      "byte_end": 15724
+    },
+    {
+      "job_id": "job-0003",
+      "path": "jobs/0003_job-0003.gcode",
+      "sha256": "55c8ea2d8be859e7674b8ef734fe2272570dbca1f6de199f8cace46dab552e48",
+      "type": "continuation",
+      "predecessor_id": "job-0002",
+      "start_xyz": [
+        36.55,
+        -61.716666669999995,
+        2.5
+      ],
+      "end_xyz": [
+        -23.449999999999996,
+        -61.716666669999995,
+        2.5
+      ],
+      "used_before_mm3": 116.97939392375359,
+      "used_after_mm3": 175.46909088563092,
+      "remaining_capacity_mm3": 19824.530909114368,
+      "height_checkpoint": "checkpoints/0002_event-0002.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0003",
+      "line_start": 6,
+      "line_end": 264,
+      "byte_start": 129,
+      "byte_end": 15983
+    },
+    {
+      "job_id": "job-0004",
+      "path": "jobs/0004_job-0004.gcode",
+      "sha256": "78b6cbc25a0ae511eba9a0a535ed69e2c8344a0477768238ecadb0b35a35fce6",
+      "type": "continuation",
+      "predecessor_id": "job-0003",
+      "start_xyz": [
+        -23.449999999999996,
+        -61.716666669999995,
+        2.5
+      ],
+      "end_xyz": [
+        -23.449999999999996,
+        63.283333330000005,
+        2.5
+      ],
+      "used_before_mm3": 175.46909088563092,
+      "used_after_mm3": 233.9587878475076,
+      "remaining_capacity_mm3": 19766.041212152493,
+      "height_checkpoint": "checkpoints/0003_event-0003.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0004",
+      "line_start": 6,
+      "line_end": 264,
+      "byte_start": 129,
+      "byte_end": 15726
+    },
+    {
+      "job_id": "job-0005",
+      "path": "jobs/0005_job-0005.gcode",
+      "sha256": "5b8e8140323ac313d85e25dd38ff3b6a54d8d70f67d13fb3039b66f0aa86aa22",
+      "type": "continuation",
+      "predecessor_id": "job-0004",
+      "start_xyz": [
+        -23.449999999999996,
+        63.283333330000005,
+        2.5
+      ],
+      "end_xyz": [
+        23.45,
+        63.283333330000005,
+        3.0
+      ],
+      "used_before_mm3": 233.9587878475076,
+      "used_after_mm3": 265.94971858293053,
+      "remaining_capacity_mm3": 19734.05028141707,
+      "height_checkpoint": "checkpoints/0004_event-0004.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0005",
+      "line_start": 6,
+      "line_end": 152,
+      "byte_start": 129,
+      "byte_end": 8771
+    },
+    {
+      "job_id": "job-0006",
+      "path": "jobs/0006_job-0006.gcode",
+      "sha256": "366136fecd2e5909efb975e3eb41d103bafcbb0ddf5bbee3426f1338ed89652d",
+      "type": "continuation",
+      "predecessor_id": "job-0005",
+      "start_xyz": [
+        23.45,
+        63.283333330000005,
+        3.0
+      ],
+      "end_xyz": [
+        23.45,
+        -61.716666669999995,
+        3.0
+      ],
+      "used_before_mm3": 265.94971858293053,
+      "used_after_mm3": 297.94064931835584,
+      "remaining_capacity_mm3": 19702.059350681644,
+      "height_checkpoint": "checkpoints/0005_event-0005.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0006",
+      "line_start": 6,
+      "line_end": 152,
+      "byte_start": 129,
+      "byte_end": 8916
+    },
+    {
+      "job_id": "job-0007",
+      "path": "jobs/0007_job-0007.gcode",
+      "sha256": "24973ca0413736591a69190f7751399cf4336928a1f9b2fcede44e30b6a47c61",
+      "type": "continuation",
+      "predecessor_id": "job-0006",
+      "start_xyz": [
+        23.45,
+        -61.716666669999995,
+        3.0
+      ],
+      "end_xyz": [
+        -36.55,
+        -61.716666669999995,
+        3.0
+      ],
+      "used_before_mm3": 297.94064931835584,
+      "used_after_mm3": 329.93158005378115,
+      "remaining_capacity_mm3": 19670.06841994622,
+      "height_checkpoint": "checkpoints/0006_event-0006.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0007",
+      "line_start": 6,
+      "line_end": 152,
+      "byte_start": 129,
+      "byte_end": 9063
+    },
+    {
+      "job_id": "job-0008",
+      "path": "jobs/0008_job-0008.gcode",
+      "sha256": "d4a31ed7d0a6be92689f198f25ffe1f09ef0b57da8d695a8c9973b6f9c70fda4",
+      "type": "continuation",
+      "predecessor_id": "job-0007",
+      "start_xyz": [
+        -36.55,
+        -61.716666669999995,
+        3.0
+      ],
+      "end_xyz": [
+        -36.55,
+        63.283333330000005,
+        3.0
+      ],
+      "used_before_mm3": 329.93158005378115,
+      "used_after_mm3": 361.92251078920646,
+      "remaining_capacity_mm3": 19638.077489210795,
+      "height_checkpoint": "checkpoints/0007_event-0007.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0008",
+      "line_start": 6,
+      "line_end": 152,
+      "byte_start": 129,
+      "byte_end": 8918
+    },
+    {
+      "job_id": "job-0009",
+      "path": "jobs/0009_job-0009.gcode",
+      "sha256": "ac3bf97dc78be06232b307e6408d68313cd9596ef629afc53a7f63c28588c472",
+      "type": "continuation",
+      "predecessor_id": "job-0008",
+      "start_xyz": [
+        -36.55,
+        63.283333330000005,
+        3.0
+      ],
+      "end_xyz": [
+        38.15,
+        69.95,
+        3.5
+      ],
+      "used_before_mm3": 361.92251078920646,
+      "used_after_mm3": 391.77251078922717,
+      "remaining_capacity_mm3": 19608.227489210774,
+      "height_checkpoint": "checkpoints/0008_event-0008.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0009",
+      "line_start": 6,
+      "line_end": 171,
+      "byte_start": 129,
+      "byte_end": 9573
+    },
+    {
+      "job_id": "job-0010",
+      "path": "jobs/0010_job-0010.gcode",
+      "sha256": "40c4c029fae3ebf5214e7eecec3dc65e1733dbb6cca2fdaf907f3b759abeb190",
+      "type": "continuation",
+      "predecessor_id": "job-0009",
+      "start_xyz": [
+        38.15,
+        69.95,
+        3.5
+      ],
+      "end_xyz": [
+        38.15,
+        -55.05,
+        3.5
+      ],
+      "used_before_mm3": 391.77251078922717,
+      "used_after_mm3": 421.6225107892479,
+      "remaining_capacity_mm3": 19578.37748921075,
+      "height_checkpoint": "checkpoints/0009_event-0009.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0010",
+      "line_start": 6,
+      "line_end": 170,
+      "byte_start": 129,
+      "byte_end": 9690
+    },
+    {
+      "job_id": "job-0011",
+      "path": "jobs/0011_job-0011.gcode",
+      "sha256": "72465016a554aa4cd78df2772440cfb1a693b71c0daf97476e21b84f506dbfac",
+      "type": "continuation",
+      "predecessor_id": "job-0010",
+      "start_xyz": [
+        38.15,
+        -55.05,
+        3.5
+      ],
+      "end_xyz": [
+        -21.849999999999998,
+        -55.05,
+        3.5
+      ],
+      "used_before_mm3": 421.6225107892479,
+      "used_after_mm3": 451.4725107892686,
+      "remaining_capacity_mm3": 19548.52748921073,
+      "height_checkpoint": "checkpoints/0010_event-0010.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0011",
+      "line_start": 6,
+      "line_end": 170,
+      "byte_start": 129,
+      "byte_end": 9855
+    },
+    {
+      "job_id": "job-0012",
+      "path": "jobs/0012_job-0012.gcode",
+      "sha256": "5daede6c9be1480fd17062f03a85cd39796a50faed6076be05d5e7f5e75d05c6",
+      "type": "continuation",
+      "predecessor_id": "job-0011",
+      "start_xyz": [
+        -21.849999999999998,
+        -55.05,
+        3.5
+      ],
+      "end_xyz": [
+        -21.849999999999998,
+        69.95,
+        3.5
+      ],
+      "used_before_mm3": 451.4725107892686,
+      "used_after_mm3": 481.3225107892893,
+      "remaining_capacity_mm3": 19518.67748921071,
+      "height_checkpoint": "checkpoints/0011_event-0011.npz",
+      "preconditions": [
+        "Operator-verified pose/tool/cold-extrusion settings",
+        "No homing or bare-plate reset",
+        "Predecessor physically completed"
+      ],
+      "event_id": "event-0012",
+      "line_start": 6,
+      "line_end": 170,
+      "byte_start": 129,
+      "byte_end": 9690
+    }
+  ],
+  "combined_sha256": "c3267dfdc2afea4111777a159bb9d429669622991789856ece92538faeec7393"
+}

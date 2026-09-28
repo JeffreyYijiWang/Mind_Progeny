@@ -1,6 +1,6 @@
 # Validation record — September 26, 2026
 
-The package was built and tested in this workspace. **The eight-hour production run has not been started.**
+The package was built and tested in this workspace. The records below describe the initial validation; the September 27 production recovery update appears at the end. **A complete eight-hour production run has not yet been validated.**
 
 ## Actual user dataset
 
@@ -53,3 +53,13 @@ Evidence: `validation/notebook-report.json`; the executed notebook with outputs 
 - Long-run convergence, image quality, diversity and memorization. Samples after a few iterations only verify the pipeline. Forty-five heterogeneous images are a small dataset, and this compact model is not the paper's full FFHQ configuration.
 
 The notebooks require a fresh smoke test on each runtime before a long run. Check Drive quota and keep the laptop awake through your normal OS settings.
+
+## September 27: local production memory recovery
+
+The first production session (`local-20260927-013132`, experiment `neohuman-local-001`) logged step 380 at 0.1501 active hours, then stopped with `MemoryError`. The live notebook writer also failed while serializing its display. The only verified checkpoint was step zero; approximately nine minutes of learned state could not be recovered. The logs did not report a CUDA out-of-memory exception. Windows committed-memory headroom after the crash was approximately 1.25 GiB.
+
+The launcher now streams notebook snapshots only between cells, makes display-save allocation/I/O failures nonfatal, records memory headroom, and requests a safe checkpoint and stop below 2 GiB of available Windows commit. The new `configs/local-recovery.json` selects a separate experiment (`neohuman-local-002`) with two-minute recovery saves. The shared model, training and checkpoint implementation were not changed, preserving checkpoint code identity.
+
+**Six launcher checks passed** in 3.55 seconds: nonfatal snapshot allocation failure, progress without full snapshot rewrites, notebook snapshot validity, a mocked low-memory safe-stop request, and new/resume branch selection with STOP preservation. Evidence: `validation/local-launcher-pytest.xml`. These checks do not simulate a real machine-wide memory failure or guarantee that an abrupt memory shortage can always be checkpointed.
+
+After the user closed unused apps, session `local-20260927-115053` passed the actual GPU save/resume smoke test and started production experiment `neohuman-local-002`. Its first scheduled recovery at **step 86 / 120.5904 active seconds** was independently checked against the manifest's SHA-256 checksum. The checkpoint size was **16,711,887 bytes**; Windows available commit was approximately **3.9 GiB**. This confirms startup and one learned-state recovery save, not completion of the eight-hour run.
