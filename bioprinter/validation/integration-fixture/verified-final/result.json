@@ -1,0 +1,28 @@
+{
+  "timestamp_utc": "2026-09-28T03:47:32.527690+00:00",
+  "status": "passed",
+  "inkscape_version": "Inkscape 1.4.4 (dcaf3e7, 2026-05-05)",
+  "prusa_version": "PrusaSlicer-2.9.6 based on Slic3r (with GUI support)",
+  "assertions": [
+    "two disconnected islands",
+    "hole preserved",
+    "Y-up asymmetric orientation",
+    "watertight mesh",
+    "one 0.5 mm layer",
+    "XY placement preserved",
+    "hole has no crossing deposition",
+    "both islands have extrusion",
+    "thermal/fan removal audited",
+    "0.3 mm bore rejects 0.5 mm layer"
+  ],
+  "synthetic_compatible_test_nozzle_mm": 0.8,
+  "mesh": {
+    "triangles": 44,
+    "watertight": true,
+    "units": "STL unitless interpreted as millimeters"
+  },
+  "deposition_moves": 80,
+  "incompatible_nozzle_error": "Expected newly generated plain-text G-code output. PrusaSlicer log:\nFirst layer height can't be greater than nozzle diameter\n",
+  "printer_contacted": false,
+  "production_approved": false
+}

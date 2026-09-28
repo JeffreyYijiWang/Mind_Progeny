@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Program Files\\Inkscape\\bin\\inkscape.com",
+    "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\integration-fixture\\native\\embedded.svg",
+    "--batch-process",
+    "--actions=select-by-id:raster;object-trace:2,false,true,true,0,1.0,0.2;select-clear;select-by-id:raster;delete;export-do",
+    "--export-plain-svg",
+    "--export-type=svg",
+    "--export-filename=C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\integration-fixture\\native\\trace.raw.svg"
+  ],
+  "version": "Inkscape 1.4.4 (dcaf3e7, 2026-05-05)"
+}

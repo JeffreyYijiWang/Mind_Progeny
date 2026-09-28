@@ -72,6 +72,7 @@ def compose(folder, profile=None, *, output_root='runs', width_mm=24, sequences=
             copy=run/'inputs'/(asset.asset_id+asset.path.suffix.lower());shutil.copy2(asset.path,copy)
             opts=dict(per_image.get(asset.path.name,{}));explicit=opts.pop('registration_matrix',None)
             asset_width=opts.pop('width_mm',width_mm)
+            if vectorizer=='inkscape': opts['trace_dir']=run/'inputs'/(asset.asset_id+'.inkscape')
             d=vectorize(asset.path,width_mm=asset_width,backend=vectorizer,**opts)
             d=register(d,anchor,registration,explicit)
             designs[asset.asset_id]=d;by_name[asset.path.relative_to(Path(folder).resolve()).as_posix()]=asset.asset_id

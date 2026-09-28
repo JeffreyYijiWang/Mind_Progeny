@@ -1,0 +1,22 @@
+{
+  "started_utc": "2026-09-28T03:49:00.191799+00:00",
+  "system": "Windows",
+  "architecture": "AMD64",
+  "install_requested": false,
+  "applications": {
+    "inkscape": {
+      "official_download_page": "https://inkscape.org/release/",
+      "existing_executable": "C:\\Program Files\\Inkscape\\bin\\inkscape.com",
+      "commands": [],
+      "executable": "C:\\Program Files\\Inkscape\\bin\\inkscape.com",
+      "status": "plan-only"
+    },
+    "prusa-slicer": {
+      "official_download_page": "https://github.com/prusa3d/PrusaSlicer/releases/latest",
+      "existing_executable": "C:\\Program Files\\Prusa3D\\PrusaSlicer\\prusa-slicer-console.exe",
+      "commands": [],
+      "executable": "C:\\Program Files\\Prusa3D\\PrusaSlicer\\prusa-slicer-console.exe",
+      "status": "plan-only"
+    }
+  }
+}

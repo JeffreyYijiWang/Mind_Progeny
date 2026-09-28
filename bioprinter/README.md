@@ -34,6 +34,21 @@ POSIX: run `sh scripts/bootstrap.sh` and use `.venv/bin/python`.
 Python 3.11/Windows is the tested environment; other platforms have CI configuration
 but were not executed here. External Inkscape/PrusaSlicer/FFmpeg are separate installs.
 
+Install both graphical applications with the OS-aware setup script:
+
+```powershell
+.\scripts\setup-tools.ps1 -Install
+# Or individually:
+.\.venv\Scripts\python.exe scripts/setup_inkscape.py --install
+.\.venv\Scripts\python.exe scripts/setup_prusaslicer.py --install
+```
+
+macOS/Linux: `sh scripts/setup-tools.sh --install`. Without `--install` (PowerShell:
+without `-Install`), setup only reports a plan. It uses WinGet on Windows, Homebrew
+casks on macOS, and existing Flatpak or a supported distro package manager on Linux.
+See [application setup and dataset tests](docs/application-setup.md) for prerequisites,
+logs, executable registration, and the delivered 45-image report.
+
 ## Your own inputs
 
 ```powershell
@@ -59,10 +74,12 @@ planar_stack`, `--schedule complete_stack`, `--recursive`, `--perimeters` and `-
 for explicit alternatives. Default is a common scale, bottom-left local anchor,
 overlap-aware stacking, clockwise round robin starting top-right.
 
-Existing SVG bypasses tracing. `--vectorizer inkscape` provides a clear manual tracing
-round-trip when no headless tracer has been verified; it never silently runs Python.
+Existing SVG bypasses tracing. `--vectorizer inkscape` uses Inkscape's native
+`object-trace` action, fixture-tested on Windows with 1.4.4. Older versions without
+that action require a manual tracing round-trip; it never silently runs Python.
 `--backend prusa` uses the mesh adapter and records exact executable/config/argv.
-Inkscape and PrusaSlicer were absent here, so their real CLI workflows remain unverified.
+The real PrusaSlicer 2.9.6 CLI was tested using synthetic geometry/dimensions.
+This does not confirm the actual needle bore or compatibility with 0.5 mm deposition.
 Raw slicer files are untrusted and cannot be uploaded through this application.
 
 ## What each run contains

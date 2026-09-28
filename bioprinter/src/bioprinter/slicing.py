@@ -58,6 +58,7 @@ def prusa_slice(mesh, output, profile, nozzle_diameter_mm, *, perimeters=1, dens
     if missing: raise ValueError(f"Installed PrusaSlicer help lacks required flags {missing}; review adapter")
     if nozzle_diameter_mm<=0: raise ValueError("Set measured nozzle/bore dimension; never inflate it to bypass layer-height validation")
     output=Path(output);output.parent.mkdir(parents=True,exist_ok=True)
+    if output.exists(): raise ValueError('Use a fresh Prusa output path; stale G-code must not mask a failed slice')
     config={"gcode_flavor":"reprapfirmware","layer_height":profile.deposition_height_mm,
         "first_layer_height":profile.deposition_height_mm,"nozzle_diameter":nozzle_diameter_mm,
         "filament_diameter":profile.slicer_filament_diameter_mm,"extrusion_width":profile.bead_width_mm,
@@ -80,5 +81,5 @@ def prusa_slice(mesh, output, profile, nozzle_diameter_mm, *, perimeters=1, dens
         raise
     output.with_suffix('.log').write_text(log,encoding="utf-8")
     if not output.is_file() or not output.read_bytes().lstrip().startswith((b';',b'G',b'M')):
-        raise ValueError("Expected plain-text G-code output")
+        raise ValueError("Expected newly generated plain-text G-code output. PrusaSlicer log:\n"+log)
     return output

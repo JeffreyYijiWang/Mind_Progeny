@@ -48,8 +48,10 @@ preview is not an approved physical print. No real calibration or liquid stabili
 
 - No contact with `hans.local`, real printer motion, uploads, cold-extrusion settings,
   firmware/tool configuration or real queue completion was performed.
-- Inkscape and PrusaSlicer were not installed; manual tracing and actual slicer CLI/profile
-  integration remain unverified. The direct polygon backend is the exercised route.
+- Inkscape/PrusaSlicer were absent during the initial 69-test validation above.
+  The follow-up installed Inkscape 1.4.4 / PrusaSlicer 2.9.6 and tested their Windows
+  CLIs with synthetic geometry. See [application setup](docs/application-setup.md)
+  and the follow-up evidence below. Real needle compatibility remains unresolved.
 - Windows is the only observed platform. Linux/macOS matrix CI is added but not run here.
 - Actual needle bore/OD, barrel diameter, plunger calibration/direction/usable stroke,
   capacity, bead width/spread, first-tip/substrate/standoff Z, safe XY/Z/E rates and
@@ -64,3 +66,50 @@ preview is not an approved physical print. No real calibration or liquid stabili
 Full scope/boundaries: [supported feature matrix](docs/features.md). Required setup and
 calibration steps: [machine profile](docs/machine-profile.md), [calibration](docs/calibration.md).
 The original attached implementation brief is preserved in `docs/implementation-brief.md`.
+
+## External application follow-up
+
+2026-09-28 UTC, branch `codex/bioprinter-setup`, same private Windows/Python environment.
+
+- Installed **Inkscape 1.4.4 (dcaf3e7, 2026-05-05)** and **PrusaSlicer 2.9.6** using
+  WinGet's official installer sources and SHA-256 verification. Actual commands, logs,
+  probes and the local doctor report are under `validation/installations/`.
+- `.venv/Scripts/python.exe -X utf8 -m pytest -q --junitxml=validation/pytest-setup.xml`:
+  **91 passed**, 0 failures/skips, 14 existing Matplotlib/pyparsing deprecation warnings.
+  Includes fresh execution of all 11 notebook code cells, installer plan-only behavior,
+  Windows/macOS/Linux command selection, Flatpak quoting, ZIP path normalization,
+  stale-output rejection, missing slicer output, and spatial/exhaustive winding equivalence.
+- `scripts/verify_external.py --output validation/integration-fixture/verified-final`:
+  passed real installed-binary assertions for two islands, a preserved hole, asymmetric
+  Y orientation, 44 watertight mesh triangles, one 0.5 mm layer, preserved XY placement,
+  80 deposition moves, no deposition crossing the hole, and audited thermal/fan removal.
+  The invented 0.8 mm test nozzle succeeded; 0.3 mm rejected the 0.5 mm layer.
+  PrusaSlicer returned zero for that rejection but created no output: the adapter now
+  requires fresh output and includes its diagnostic text, rather than trusting exit code.
+- `pip check`: no broken requirements. `git diff --check`: passed.
+- The supplied ZIP contains exactly 45 readable, CRC-checked images. Originals, hashes,
+  inventory, per-image native traces/meshes/slices/logs, HTML report and contact sheets
+  are retained in `validation/dataset-runs/45-image-integration/`. Compact results are
+  in `validation/dataset-45-summary.json`.
+
+Completed dataset result: **45/45 checked**, **44 native traces**, **37 slices with parsed
+deposition paths**. Five slices were empty at the chosen width/bead settings; one faint
+input became blank after preprocessing; two valid 2D polygons had point-touching boundaries
+whose extrusions created vertical edges shared by four faces (nonmanifold meshes, rejected).
+The diagnostics identify 35/37 completed slices with at least one island lacking nearby
+extrusion; 4,318 islands total under the nominal-footprint diagnostic. The report therefore
+does not equate a completed slice with faithful detail preservation or physical printability.
+
+The original full-resolution/two-worker attempt exhausted Windows committed memory and
+was stopped. The reported batch uses single-worker execution, 800 px maximum working
+dimension, explicit 40 mm canvas width, threshold 128, median 3, 0.01 mm² minimum islands,
+0.05 mm simplification, one 0.5 mm layer, invented 0.8 mm slicer nozzle, nominal 1 mm
+bead and 20% infill. Originals are unchanged. Completed diagnostic results were reused
+after hash/settings checks while geometry-performance fixes were applied; interrupted
+attempts were retained, and retries used fresh folders. The final report records stages
+and failures, rather than treating every image as printable.
+
+Successful CLI execution can still lose thin details/islands. These independently scaled
+images are not registered stack layers or approved printer jobs. No GUI interaction,
+macOS/Linux runtime, physical printer, actual needle calibration or liquid behavior was
+tested. Existing hardware/queue restrictions above remain in force.

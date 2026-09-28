@@ -27,8 +27,11 @@ platform-specific packages and is not a universal cross-platform lock.
 
 ## External applications
 
-Install these using their official downloads or your OS package manager. They are not
-installed by requirements.txt and missing executables do not break the offline core.
+Use `scripts/setup-tools.ps1 -Install` on Windows or `sh scripts/setup-tools.sh --install`
+on macOS/Linux. Individual `setup_inkscape.py` and `setup_prusaslicer.py` wrappers are
+also supplied. See [application setup](application-setup.md) for prerequisites, command
+plans, executable registration and the 45-image integration test. They are not installed
+by requirements.txt and missing executables do not break the offline core.
 
 | Application | Windows | macOS | Linux |
 |---|---|---|---|
@@ -43,9 +46,10 @@ Paths with spaces/Unicode are passed as subprocess argument arrays with timeouts
 checked status. PrusaSlicer captures config, full command arguments and logs. When its
 installed CLI lacks required flags, it fails explicitly for adapter review.
 
-Inkscape's version/help/action-list probe is informational. Plain-SVG export does not
-trace a bitmap. No installed headless tracing action was available to fixture-test here;
-the Inkscape route is an explicit manual Trace Bitmap → remove raster → Plain SVG round-trip.
+Inkscape 1.4.4 and PrusaSlicer 2.9.6 are installed and CLI-tested on this Windows laptop.
+The native Inkscape `object-trace` adapter verifies raster-free paths, with a hole/island/
+orientation fixture. Plain-SVG export alone does not trace a bitmap. Executables without
+that action require a manual Trace Bitmap → remove raster → Plain SVG round-trip.
 
 FFmpeg 7.1 (Windows Gyan essentials build) and ffprobe 7.1 were found. H.264 MOV and
 duration verification ran successfully. The PNG/SVG display frame renderer uses Pillow

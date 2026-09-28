@@ -5,5 +5,9 @@ __pycache__/
 .ipynb_checkpoints/
 .env
 secrets*
+external-tools.local.json
+.tools/
+datasets/
+validation/dataset-runs/
 runs/
 !examples/run/

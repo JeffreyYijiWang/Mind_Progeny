@@ -1,0 +1,12 @@
+Tracing... 100%
+CMSSystem::load_profiles: ICC profile with duplicate name: (Unnamed):
+   C:\WINDOWS\system32\spool\drivers\color\SDC414D_sRGB_4000.icm
+   C:\WINDOWS\system32\spool\drivers\color\SDC414D_sRGB_4500.icm
+
+(org.inkscape.Inkscape:19960): Gtk-CRITICAL **: 23:45:54.343: invalid accelerator string ''
+
+(org.inkscape.Inkscape:19960): Gtk-CRITICAL **: 23:45:54.343: gtk_application_accels_get_actions_for_accel: assertion 'accel_key.key != 0' failed
+
+(org.inkscape.Inkscape:19960): Gtk-WARNING **: 23:45:54.348: Unable to parse accelerator '': ignored request to install 1 accelerators
+Tracing done.
+InkFileExportCmd::do_export: Ignoring extension of export filename (raw) as it does not match the current export type (svg).

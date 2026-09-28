@@ -9,18 +9,18 @@ from .geometry import Design, clean, read_svg
 
 
 def vectorize(path, width_mm=None, backend="python", threshold=128, invert=False,
-              denoise=0, min_area_mm2=0, simplify_mm=0.05, background="white", mode="filled"):
+              denoise=0, min_area_mm2=0, simplify_mm=0.05, background="white", mode="filled", trace_dir=None, max_pixels=None):
     path=Path(path)
     from .ingestion import EXTENSIONS
     if path.suffix.lower() not in EXTENSIONS:
         raise ValueError('Unsupported input extension; use PNG/JPEG/TIFF/BMP/SVG')
     if path.suffix.lower()==".svg": return read_svg(path,width_mm,simplify_mm or 0.01)
     if backend=="inkscape":
-        from .external import probe
-        cap=probe("inkscape")
-        raise ValueError("Inkscape manual round-trip required: open image, Path > Trace Bitmap, delete raster, "
-                         "save Plain SVG and select that SVG. No verified headless tracer is configured. " + str(cap))
+        from .inkscape import trace_bitmap
+        return trace_bitmap(path,width_mm,threshold=threshold,invert=invert,denoise=denoise,
+            min_area_mm2=min_area_mm2,simplify_mm=simplify_mm,background=background,mode=mode,trace_dir=trace_dir,max_pixels=max_pixels)
     if backend!="python": raise ValueError(f"Unknown vectorizer {backend}")
+    if max_pixels is not None: raise ValueError('max_pixels is only supported by the Inkscape adapter')
     if mode!="filled": raise ValueError("Raster outline/centerline extraction is not supported; supply stroked SVG paths")
     if width_mm is None or width_mm<=0: raise ValueError("Set a positive width_mm; pixels have no implicit physical size")
     if not 0<=threshold<=255 or denoise<0 or min_area_mm2<0 or simplify_mm<0: raise ValueError("Invalid tracing parameters")

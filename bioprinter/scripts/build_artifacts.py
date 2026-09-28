@@ -59,7 +59,7 @@ SEQUENCES = None  # e.g. {'Q1': ['image1_ring.png'], 'Q2': [], 'Q3': [], 'Q4': [
 PER_IMAGE = {'image1_ring.png': {'threshold': 128, 'simplify_mm': 0.05}}
 assets = discover(INPUT_FOLDER, order=ORDER)
 display([a.metadata() for a in assets])''')
-md('## Vectorization comparison\n\nThe custom backend extracts real filled polygons with holes. Inkscape is an explicit manual round-trip if no fixture-verified headless tracer is available: Path → Trace Bitmap, remove raster, save Plain SVG. Selecting `inkscape` never silently chooses Python. Existing SVG strokes become filled geometry; raster centerlines are unsupported.')
+md('## Vectorization comparison\n\nThe custom backend extracts real filled polygons with holes. Inkscape 1.4.4 has a fixture-tested native object-trace adapter on Windows. Older versions without that action require Path → Trace Bitmap, remove raster, save Plain SVG. Selecting `inkscape` never silently chooses Python. Existing SVG strokes become filled geometry; raster centerlines are unsupported.')
 code('''from bioprinter.vectorization import vectorize
 from bioprinter.geometry import register, anchor_point
 designs = [vectorize(a.path, width_mm=24) for a in assets]
@@ -73,7 +73,7 @@ REGISTRATION = 'shared_canvas'
 display({name: anchor_point(designs[0].geometry.bounds, name)
          for name in ['bottom_left','bottom_right','top_left','top_right','center']})
 display(register(designs[0], ANCHOR, REGISTRATION).metadata)''')
-md('## Slice and calibration settings\n\nThe demo explicitly selects direct polygon paths. PrusaSlicer uses a watertight mm-convention STL and records its probed CLI/config; it was not installed during development. Real 0.5 mm layers may be incompatible with the measured bore. Do not falsify a nozzle dimension to bypass that rejection. Top/bottom solid layers can override sparse infill.\n\nFinal E is calibrated relative syringe units. Filament E is converted to volume first, then divided by measured mm³/E; G92 does not refill capacity. No uncalibrated priming/retraction is reused.')
+md('## Slice and calibration settings\n\nThe demo explicitly selects direct polygon paths. PrusaSlicer uses a watertight mm-convention STL and records its probed CLI/config; version 2.9.6 was CLI-tested on Windows using synthetic dimensions (see docs/application-setup.md). Real 0.5 mm layers may be incompatible with the measured bore. Do not falsify a nozzle dimension to bypass that rejection. Top/bottom solid layers can override sparse infill.\n\nFinal E is calibrated relative syringe units. Filament E is converted to volume first, then divided by measured mm³/E; G92 does not refill capacity. No uncalibrated priming/retraction is reused.')
 code('''BACKEND = 'direct'
 PERIMETERS = 1
 INFILL_DENSITY = 0.15

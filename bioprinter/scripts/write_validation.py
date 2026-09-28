@@ -70,8 +70,9 @@ preview is not an approved physical print. No real calibration or liquid stabili
 
 - No contact with `hans.local`, real printer motion, uploads, cold-extrusion settings,
   firmware/tool configuration or real queue completion was performed.
-- Inkscape and PrusaSlicer were not installed; manual tracing and actual slicer CLI/profile
-  integration remain unverified. The direct polygon backend is the exercised route.
+- Inkscape/PrusaSlicer were absent during the initial validation. See the external-app
+  follow-up below and docs/application-setup.md for later installed-binary evidence.
+  Real measured-bore/0.5 mm compatibility remains unresolved.
 - Windows is the only observed platform. Linux/macOS matrix CI is added but not run here.
 - Actual needle bore/OD, barrel diameter, plunger calibration/direction/usable stroke,
   capacity, bead width/spread, first-tip/substrate/standoff Z, safe XY/Z/E rates and
@@ -87,5 +88,8 @@ Full scope/boundaries: [supported feature matrix](docs/features.md). Required se
 calibration steps: [machine profile](docs/machine-profile.md), [calibration](docs/calibration.md).
 The original attached implementation brief is preserved in `docs/implementation-brief.md`.
 '''
+existing=(root/'VALIDATION.md').read_text(encoding='utf-8') if (root/'VALIDATION.md').exists() else ''
+marker='## External application follow-up'
+if marker in existing: text+='\n'+marker+existing.split(marker,1)[1]
 (root/'VALIDATION.md').write_text(text,encoding='utf-8')
 print(f"Recorded {suite.attrib['tests']} tests, {len(codes)} notebook cells, and final example verification")

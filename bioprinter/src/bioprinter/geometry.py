@@ -6,7 +6,7 @@ import math
 import re
 import numpy as np
 from defusedxml import ElementTree as ET
-from shapely import affinity, make_valid
+from shapely import affinity, make_valid, STRtree
 from shapely.geometry import Polygon, LineString, Point, box
 from shapely.ops import unary_union, polygonize
 from svgpathtools import parse_path
@@ -125,9 +125,14 @@ def fill_rings(rings, rule):
         raise ValueError("Unsupported fill rule")
     lines=[LineString(r+[r[0]]) for r in rings if len(r)>=3]
     faces=list(polygonize(unary_union(lines)))
+    # A closed ring has zero winding outside its bounding box. Query those boxes
+    # once per face instead of scanning every segment of every disconnected ring.
+    valid_rings=[r for r in rings if len(r)>=3]
+    index=STRtree([box(*line.bounds) for line in lines])
     selected=[]
     for face in faces:
-        p=face.representative_point(); w=sum(winding((p.x,p.y),r) for r in rings)
+        p=face.representative_point()
+        w=sum(winding((p.x,p.y),valid_rings[i]) for i in index.query(p))
         if (w%2 if rule=="evenodd" else w!=0): selected.append(face)
     return unary_union(selected)
 

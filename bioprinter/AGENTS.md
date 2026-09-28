@@ -6,8 +6,8 @@ job, timeline, preview, optional MOV. Imports and offline workflows have no netw
 
 ## Module map and verification
 
-`src/bioprinter`: config (validated YAML), ingestion (natural order/hash), vectorization
-(OpenCV hierarchy), geometry (strict SVG/registration), meshing (watertight STL), slicing
+`src/bioprinter`: config (validated YAML), ingestion/archive (natural order/hash/safe ZIP), vectorization
+(OpenCV hierarchy), inkscape (native object-trace), geometry (strict SVG/registration), meshing (watertight STL), slicing
 (direct and probed Prusa adapter), gcode (modal interpreter/output allowlist), extrusion
 (volume/stroke), layout (quadrants/schedules), stacking (height/collisions), simulation
 (plots), timing/display/video, pipeline (provenance), duet (explicit HTTP/queue), cli.
@@ -20,7 +20,9 @@ Do not claim all platforms/external integrations tested; see VALIDATION.md.
 
 Observed versions: Windows/CPython 3.11.9; NumPy 2.2.6, Pillow 11.3.0, OpenCV headless
 4.12.0.88, Shapely 2.1.2, svgpathtools 1.7.1, Pydantic 2.11.7, httpx 0.28.1,
-Matplotlib 3.10.5, Plotly 6.3.0, FFmpeg/ffprobe 7.1. Inkscape/PrusaSlicer absent.
+Matplotlib 3.10.5, Plotly 6.3.0, FFmpeg/ffprobe 7.1. Inkscape 1.4.4 and PrusaSlicer
+2.9.6 installed on Windows; explicit integration fixture and 45-image batch evidence
+are in `validation/`. macOS/Linux install plans tested, OS execution unverified.
 Offline suite and 11-cell fresh notebook were executed; exact final count is in VALIDATION.md.
 
 ## Geometry and hardware
@@ -92,3 +94,18 @@ demo because Inkscape/PrusaSlicer were absent. Keep explicit optional adapters/m
 round-trip; never silently substitute. Chose fail-closed production checks and operator
 queue reconciliation rather than unsupported completion flags. Details/alternatives:
 [0001](docs/decisions/0001-offline-first.md). Update this record when decisions change.
+
+2026-09-28 follow-up: user explicitly requested OS-aware app setup, Windows installation
+and tests on a 45-image ZIP. `scripts/setup_external.py` installs only with `--install`;
+WinGet/Homebrew/distro/Flatpak supply packages, no hash/TLS bypass. Local registry is
+ignored. `inkscape.py` performs explicit threshold preprocessing then native object-trace,
+clears selection before deleting raster, rejects raster-only output, removes only empty
+defs, and strictly parses resulting geometry. `max_pixels` is an explicit Inkscape-only
+working-copy limit. `archive.py` validates original ZIP header names as well as resolved
+paths (Python normalizes Windows separators). No archive content is executed.
+`test_image_dataset.py` tests separate 40 mm images, not a registered stack. A synthetic
+0.8 mm slicer nozzle is only a compatibility fixture, never a claim about the real needle.
+The initial full-resolution parallel attempt exhausted Windows commit memory; retry
+uses one worker and 800 px working copies, with originals/logs preserved. Thin/faint
+features can fail or disappear. A successful external slice does not authorize printing.
+See [0002](docs/decisions/0002-external-app-setup.md) and [setup](docs/application-setup.md).
