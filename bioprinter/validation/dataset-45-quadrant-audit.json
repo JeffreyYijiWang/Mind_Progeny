@@ -1,10 +1,10 @@
 {
-  "checked_utc": "2026-09-28T04:38:44.775199+00:00",
+  "checked_utc": "2026-09-28T05:01:39.821566+00:00",
   "source_hashes_verified": 45,
   "trace_bounds_verified": 44,
   "report_cards": 45,
   "report_images": 85,
-  "local_references_verified": 256,
+  "local_references_verified": 257,
   "filter_states": {
     "failed": 5,
     "review": 38,
@@ -12,8 +12,19 @@
   },
   "baseline_json_hash_unchanged": true,
   "baseline_html_archive_sha256": "a26ac82d8696a2dc3eefd728138e14edd2a111fb131516155db8886dcbf25258",
-  "report_html_sha256": "b443d4d67b53283d6d529a4c28e3ea6c5d9ef9f72034e1596b33885268fe9781",
-  "report_json_sha256": "7af96a8244385db1dc42f5bb16dbeb16c94a3997225d54cd5ae7459a04e1cd70",
+  "report_html_sha256": "1eefc608a3ef34cb4754d5415a3133f185d39ee4e2d13c7b4d7109ad7bddc2f5",
+  "report_json_sha256": "6d1b892ef8e1b48bd4c7aa31cc2e8af79a9652b9d096003b4f66d715787c0160",
   "gui_verification": "Not performed: browser automation blocks file URLs. HTML references and rendered image assets checked directly.",
-  "printer_contacted": false
+  "printer_contacted": false,
+  "needle_identity_verified": {
+    "gauge": 23,
+    "length_mm": 12.7
+  },
+  "svg_size_comparison": {
+    "cards": 24,
+    "valid_local_references": 72,
+    "source_hashes_verified": 3,
+    "report_html_sha256": "216f5f19a4446afcb20d565f5389420747c2bfa95d87791f71124e91e018e58c",
+    "report_json_sha256": "c0f3da4df989b7b0e6d1c2f7904b07482c32088ad8abf6879c5228ea03b0c6b9"
+  }
 }

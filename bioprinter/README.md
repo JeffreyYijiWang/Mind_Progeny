@@ -9,6 +9,11 @@ Each quadrant has **4 in X × 5 in Y** available (101.6 × 127 mm). The centered
 planning area is **8 × 10 in** (203.2 × 254 mm), before the configured edge/tool margins.
 Both placement and the PrusaSlicer bed use the profile's XY bounds.
 
+Your needle is recorded as **23 gauge × ½ inch long (12.7 mm)** in
+`profiles/needle-23g-half-inch.yaml`. Its bore and flow calibration remain separate
+measurements. [Conversion settings](docs/conversion-settings.md) explains the four
+physical size presets, Inkscape/Python choices, notebook controls and full workflow.
+
 **The included profile and example jobs are synthetic previews.** The actual bore,
 barrel, calibration, Z limits, holder envelope and motion limits have not been measured.
 The demo deliberately includes uneven support and reports those regions. Production
@@ -59,12 +64,17 @@ The synthetic 4 mm margins leave **93.6 × 119 mm**. Cards compare original imag
 actual toolpaths and the earlier 40 mm test, with filters for failures and detail loss.
 This explicit diagnostic fit does not change stack-layer registration.
 
+The [SVG size/converter comparison](validation/dataset-runs/45-image-integration/svg-size-comparison/report.html)
+contains 24 conversions: three supplied images, four sizes, and both converters.
+
 ## Your own inputs
 
 ```powershell
 .\.venv\Scripts\python.exe -m bioprinter compose C:\path\to\pictures --profile profiles/synthetic.yaml --width-mm 24
 .\.venv\Scripts\python.exe -m bioprinter compose examples/inputs --profile profiles/synthetic.yaml --width-mm 24 --manifest examples/order.json
 .\.venv\Scripts\python.exe -m bioprinter vectorize picture.png traced.svg --width-mm 24
+.\.venv\Scripts\python.exe -m bioprinter vectorize picture.png traced.svg --preset medium --backend inkscape
+.\.venv\Scripts\python.exe -m bioprinter compose examples/inputs --profile profiles/synthetic.yaml --preset small --vectorizer python
 .\.venv\Scripts\python.exe -m bioprinter slice traced.svg raw.gcode --profile profiles/synthetic.yaml --width-mm 24 --backend direct
 .\.venv\Scripts\python.exe -m bioprinter simulate runs/RUN_DIRECTORY
 .\.venv\Scripts\python.exe -m bioprinter video runs/RUN_DIRECTORY --fps 24 --width 640 --height 480
@@ -76,7 +86,7 @@ in millimeters; EXIF orientation and alpha compositing occur before thresholding
 Multi-page TIFF/animated images must be split into individual files.
 
 `--manifest` accepts `order`, `sequences` and `per_image`; see `examples/order.json`.
-Per-image options include width_mm, threshold, invert, denoise (odd median kernel),
+Per-image options include preset, width_mm, threshold, invert, denoise (odd median kernel),
 min_area_mm2, simplify_mm, background and a 3×3 registration_matrix. Shared-canvas
 registration requires matching common canvases. Never independently resize stack
 layers just to fill quadrants. Use `--anchor`, `--registration`, `--repeats`, `--mode

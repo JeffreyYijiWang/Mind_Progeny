@@ -1,0 +1,330 @@
+{
+  "results": [
+    {
+      "converter": "python",
+      "slicer": "direct",
+      "preset": "small",
+      "status": "passed",
+      "layer_height_mm": 0.5,
+      "bead_width_mm": 1.0,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\full-pipeline-presets-final\\runs\\20260928T045646.906134Z_21223780",
+      "events": 12,
+      "used_mm3": 558.9657437087194,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 82,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 82,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 81,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 81,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    },
+    {
+      "converter": "python",
+      "slicer": "prusa",
+      "preset": "small",
+      "status": "passed",
+      "layer_height_mm": 0.2,
+      "bead_width_mm": 0.4,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\full-pipeline-presets-final\\runs\\20260928T045652.400636Z_20a02b73",
+      "events": 12,
+      "used_mm3": 151.64349732804484,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 409,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 409,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 409,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 409,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 397,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 397,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 397,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 397,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    },
+    {
+      "converter": "inkscape",
+      "slicer": "direct",
+      "preset": "small",
+      "status": "passed",
+      "layer_height_mm": 0.5,
+      "bead_width_mm": 1.0,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\full-pipeline-presets-final\\runs\\20260928T045714.920317Z_113fd753",
+      "events": 12,
+      "used_mm3": 565.2499999995048,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 111,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 111,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 112,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 112,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    },
+    {
+      "converter": "inkscape",
+      "slicer": "prusa",
+      "preset": "small",
+      "status": "passed",
+      "layer_height_mm": 0.2,
+      "bead_width_mm": 0.4,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\full-pipeline-presets-final\\runs\\20260928T045754.124303Z_f92ccdad",
+      "events": 12,
+      "used_mm3": 154.01529767973184,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 359,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 359,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 359,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 359,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 400,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 400,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 400,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 400,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    }
+  ],
+  "passed": 4,
+  "expected": 4,
+  "default_0_5mm_layer_with_synthetic_0_3mm_bore_rejected": true,
+  "rejection": "Expected newly generated plain-text G-code output. PrusaSlicer log:\nFirst layer height can't be greater than nozzle diameter\n",
+  "printer_contacted": false,
+  "scope": "Windows native CLI software verification. Prusa success uses a separate synthetic 0.2 mm layer / 0.4 mm bead fixture; requested nominal 0.5 mm default is unchanged. Bore is not a measurement of the 23 gauge needle."
+}

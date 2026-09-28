@@ -6,12 +6,21 @@ import ipywidgets as w
 from IPython.display import display
 from .ingestion import discover
 from .pipeline import compose
+from .presets import PRESETS
 
 
 def batch_panel(folder,profile,output_root):
     folder=w.Text(value=str(folder),description='Folder',layout=w.Layout(width='90%'))
     order=w.Select(options=[a.path.name for a in discover(folder.value)],rows=6,description='Order')
     width=w.FloatText(value=24,description='Width mm')
+    preset=w.Dropdown(options=[('Custom width',None),*((name,name) for name in PRESETS)],description='SVG size')
+    vectorizer=w.Dropdown(options=[('Python converter','python'),('Inkscape','inkscape')],description='Converter')
+    slicer=w.Dropdown(options=['direct','prusa'],description='Slicer')
+    threshold=w.IntSlider(value=128,min=1,max=255,description='Threshold')
+    preset.observe(lambda change:setattr(width,'disabled',change['new'] is not None),names='value')
+    needle=w.HTML(value=f'<b>Needle: {profile.needle_gauge} gauge × {profile.needle_length_mm:g} mm '
+        f'({profile.needle_length_mm/25.4:g} inch) long.</b> '
+        +('Other dimensions are synthetic preview values.' if profile.synthetic else 'Bore and bead width require separate measurements.'))
     anchor=w.Dropdown(options=['bottom_left','center','top_left','top_right','bottom_right'],description='Anchor')
     registration=w.Dropdown(options=['shared_canvas','per_design_bbox'],description='Register')
     mode=w.Dropdown(options=['overlap_aware','planar_stack'],description='Stack')
@@ -32,7 +41,9 @@ def batch_panel(folder,profile,output_root):
     def run(_):
         if state['running']:return
         try:
-            options=dict(width_mm=width.value,anchor=anchor.value,registration=registration.value,
+            options=dict(width_mm=None if preset.value else width.value,preset=preset.value,
+                         vectorizer=vectorizer.value,backend=slicer.value,trace_options={'threshold':threshold.value},
+                         anchor=anchor.value,registration=registration.value,
                          stack_mode=mode.value,order=list(order.options),per_image=json.loads(per_image.value))
         except Exception as exc:output.append_stdout(str(exc)+'\n');return
         source=folder.value;state['running']=True;start.disabled=True;stop.clear();output.clear_output()
@@ -45,6 +56,7 @@ def batch_panel(folder,profile,output_root):
             finally:state['running']=False;start.disabled=False
         Thread(target=worker,daemon=True).start()
     start.on_click(run)
-    panel=w.VBox([folder,refresh,order,w.HBox([up,down]),w.HBox([width,anchor,registration,mode]),per_image,w.HBox([start,cancel]),output])
+    panel=w.VBox([needle,folder,refresh,order,w.HBox([up,down]),w.HBox([preset,width,vectorizer,slicer]),threshold,
+                  w.HBox([anchor,registration,mode]),per_image,w.HBox([start,cancel]),output])
     display(panel)
     return state

@@ -3,6 +3,8 @@ from pathlib import Path
 import argparse
 from collections import Counter
 import json
+import os
+from bioprinter.config import Profile
 from PIL import Image,ImageOps,ImageDraw
 from test_image_dataset import report
 
@@ -12,9 +14,16 @@ def main():
     parser.add_argument('run',type=Path)
     parser.add_argument('--inventory',type=Path,required=True)
     parser.add_argument('--summary',type=Path,required=True)
+    parser.add_argument('--svg-comparison',type=Path,help='Link an existing converter/size comparison HTML report')
     args=parser.parse_args()
     data=json.loads((args.run/'report.json').read_text(encoding='utf-8'))
     if data['completed']!=data['expected']: raise ValueError('Batch is incomplete')
+    snapshot=args.run/'profile.json'
+    if snapshot.is_file():
+        data['needle']=Profile.model_validate(json.loads(snapshot.read_text(encoding='utf-8'))).needle_summary()
+    if args.svg_comparison:
+        if not args.svg_comparison.is_file(): raise ValueError('SVG comparison report does not exist')
+        data['svg_comparison_href']=os.path.relpath(args.svg_comparison,args.run).replace('\\','/')
     inputs=json.loads(args.inventory.read_text(encoding='utf-8'))
     lookup={r['sha256']:r for r in inputs}
     results=data.pop('results')

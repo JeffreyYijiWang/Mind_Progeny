@@ -1,0 +1,31 @@
+{
+  "original_pixels": [
+    120,
+    120
+  ],
+  "working_pixels": [
+    64,
+    64
+  ],
+  "center_maps_to_mm": [
+    12.5,
+    12.5
+  ],
+  "needle": {
+    "gauge": 23,
+    "length_mm": 12.7,
+    "length_inches": 0.5,
+    "gauge_confirmed": true,
+    "length_confirmed": true,
+    "inner_diameter_mm": null,
+    "outer_diameter_mm": null,
+    "dimensions_are_synthetic": false,
+    "diameter_source": "separate measurements required; never inferred from gauge or length"
+  },
+  "svg_canvas_mm": [
+    25,
+    25
+  ],
+  "sidecar": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\final-native-preset\\sample.settings.json",
+  "printer_contacted": false
+}

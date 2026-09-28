@@ -1,0 +1,10 @@
+{
+  "order": [
+    "HANSBOX26000003.png",
+    "HANSBOX26000049.png",
+    "Screenshot 2026-09-12 at 3.50.09 PM.png"
+  ],
+  "per_image": {
+    "HANSBOX26000049.png": {"threshold": 220, "denoise": 0}
+  }
+}

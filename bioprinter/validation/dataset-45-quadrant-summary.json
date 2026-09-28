@@ -40,6 +40,18 @@
   "trace_passed": 44,
   "prusa_passed": 40,
   "passed": 40,
+  "needle": {
+    "gauge": 23,
+    "length_mm": 12.7,
+    "length_inches": 0.5,
+    "gauge_confirmed": true,
+    "length_confirmed": true,
+    "inner_diameter_mm": 0.3,
+    "outer_diameter_mm": 0.6,
+    "dimensions_are_synthetic": true,
+    "diameter_source": "invented simulation values"
+  },
+  "svg_comparison_href": "../svg-size-comparison/report.html",
   "report": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\45-image-integration\\quadrant-4x5in-verified\\report.html",
   "failure_stages": {
     "prusa": 2,

@@ -176,3 +176,58 @@ Verification:
   Browser automation rejected the local `file:` URL, so rendered HTML layout and
   filter clicks were not GUI-tested; no alternate browser access was attempted.
 - `git diff --check` passed. No printer contact or physical printability test.
+
+## Needle, size presets and branch integration
+
+2026-09-28 UTC, local branch `bioprinter-setup`. The user clarified that the other
+bioprinter branch should be merged into this branch, excluding main. A verified
+fetch using Windows' certificate store found `origin/bioprinter` at 35ff7cb already
+contained in the setup branch. Git reported already up to date. Prior local work
+was preserved in e053479; main remains at 245da5b and no remote push was performed.
+Root GAN notebooks, code and environment were preserved. Branch evidence:
+`validation/branch-integration.json`.
+
+The requested **23 gauge × ½ inch length (12.7 mm)** is now visible in the named
+unmeasured needle profile, notebook/batch UI, SVG settings sidecars, report and run
+manifests. Actual bore, OD, bead width, mounting and calibration remain unresolved.
+No inferred 23-gauge diameter or synthetic measurement was promoted to a real profile.
+
+Executed checks, using `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1` in the test processes:
+
+- `.venv/Scripts/python.exe -X utf8 -m pytest -q --junitxml=validation/pytest-full-pipeline.xml`:
+  **119 passed**, 0 failures/skips; 14 existing Matplotlib/pyparsing warnings. Includes
+  fresh execution of all **11 notebook code cells**, SVG canvas/offset round-trips,
+  both original-pixel resize transforms, preset aspect/envelope checks, override
+  validation, needle identity/confirmation requirements, and existing offline tests.
+- `scripts/compare_svg_presets.py "validation/dataset-runs/45-image-integration/inputs/DATA SET" --output validation/dataset-runs/45-image-integration/svg-size-comparison --manifest examples/dataset-conversion-settings.json`:
+  **24/24 SVG conversions** from three supplied sources × four sizes × Python and
+  native Inkscape. The faint HANSBOX26000049 image now converts with its explicitly
+  selected threshold 220 / denoise 0. This is SVG-generation evidence, not a claim
+  that it now slices or that fine lines remain fully connected. Both full-quadrant
+  faint-drawing SVGs were rendered with Inkscape and visually inspected.
+- `scripts/verify_full_pipeline.py --output validation/dataset-runs/full-pipeline-presets-final --summary validation/full-pipeline-presets-summary.json`:
+  **4/4 complete combinations** of Python/Inkscape × direct/Prusa, each with three
+  shapes and **12 segments across all four quadrants**. Verified preserved 25 × 25 mm
+  SVG canvases and full output preflight (hashes, allowlist, profile and manifests).
+  The native Prusa quadrant preview was inspected. Synthetic overlap/support
+  diagnostics remain visible; these are not production-approved jobs.
+- Prusa's successful full-pipeline fixture uses **0.2 mm layer, 0.4 mm bead, 0.3 mm
+  invented bore**, 0.2 mm grid/sample resolution. The nominal 0.5 mm default remains
+  unchanged and its rejection with the synthetic 0.3 mm bore was verified. Initial
+  attempts using a 1 mm bead also failed Prusa's excessive-width check; evidence is
+  retained in `validation/full-pipeline-presets-attempt1.json` and the run folders.
+  No bore was inflated to evade validation. These values are not specifications for
+  the actual 23-gauge needle.
+- A final real Inkscape CLI conversion with `--preset small --max-pixels 64` verified
+  a 120 × 120 source becoming a 64 × 64 working copy, while the original source center
+  maps to (12.5, 12.5) mm in the preserved 25 mm canvas. This checks the original-to-
+  working-to-local affine chain. Evidence: `validation/native-preset-affine-check.json`.
+- Report integrity: 45-image report has 257 valid local references; SVG comparison
+  has 24 cards and 72 valid references. All source hashes verified. Needle identity
+  and the link between reports verified. Compact SVG summary:
+  `validation/svg-size-comparison-summary.json`; refreshed 45-image audit/summary
+  retain their original paths. The 45-image slice results remain 40/45; no extra
+  45-image slicing run is implied by this SVG comparison.
+- `git diff --check` passed. Browser GUI layout/filter clicks remain unverified due
+  to the local-file browser automation restriction described above. Native Windows
+  CLIs were tested; macOS/Linux runtime and physical printer operation were not.

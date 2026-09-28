@@ -104,7 +104,7 @@ WinGet/Homebrew/distro/Flatpak supply packages, no hash/TLS bypass. Local regist
 ignored. `inkscape.py` performs explicit threshold preprocessing then native object-trace,
 clears selection before deleting raster, rejects raster-only output, removes only empty
 defs, and strictly parses resulting geometry. `max_pixels` is an explicit Inkscape-only
-working-copy limit. `archive.py` validates original ZIP header names as well as resolved
+working-copy limit (now supported by Python too; see 0005). `archive.py` validates original ZIP header names as well as resolved
 paths (Python normalizes Windows separators). No archive content is executed.
 `test_image_dataset.py` defaults to separate 40 mm images, not a registered stack. A synthetic
 0.8 mm slicer nozzle is only a compatibility fixture, never a claim about the real needle.
@@ -123,3 +123,24 @@ and failed new results remain visible. Inkscape gets a unique `--app-id-tag` per
 and must produce its expected new SVG. Parallel CLI work must not share app instances.
 Current report: `validation/dataset-runs/45-image-integration/quadrant-4x5in-verified/report.html`.
 Exact validation, counts and remaining failures: VALIDATION.md and [0004](docs/decisions/0004-quadrant-image-report.md).
+
+2026-09-28 pipeline integration: user reconfirmed 23 gauge × ½ inch length and asked
+for size settings for both converters. `presets.py` supplies small/medium/large/quadrant
+canvas limits and trace defaults; explicit width and per-image options take precedence
+within the selected envelope. `vectorization.py` now accepts a working-pixel limit
+for Python too. No preset infers needle dimensions or changes calibrated motion values.
+CLI, notebook and batch UI pass the same resolved options into `compose`. Shared-canvas
+registration still rejects mismatched canvases. CLI and pipeline SVG exports preserve
+canvas offsets with `write_svg(..., preserve_canvas=True)`; diagnostic thumbnails may
+use content bounds. Needle identity is written in sidecars/manifests/`reports/needle.json`.
+For resized rasters, source/local affine matrices start from EXIF-oriented original
+pixels. Both converters record original-to-working and working-to-normalized matrices;
+do not mistake resized working pixels for the original source coordinates.
+`profiles/needle-23g-half-inch.yaml` is unmeasured; synthetic bores remain labelled.
+Production now also requires the two needle identity confirmation flags.
+
+User corrected branch scope to merge the other bioprinter branch into this one, excluding
+main. Work stays on `bioprinter-setup`; `origin/bioprinter` was already an ancestor.
+No main ref, root GAN files/environment, remote branch or printer is modified.
+See [0005](docs/decisions/0005-conversion-presets-and-integration.md),
+[settings](docs/conversion-settings.md), and final validation evidence.

@@ -1,0 +1,37 @@
+{
+  "created_utc": "2026-09-28T04:52:53.353012+00:00",
+  "needle": {
+    "gauge": 23,
+    "length_mm": 12.7,
+    "length_inches": 0.5,
+    "gauge_confirmed": true,
+    "length_confirmed": true,
+    "inner_diameter_mm": 0.3,
+    "outer_diameter_mm": 0.6,
+    "dimensions_are_synthetic": true,
+    "diameter_source": "invented simulation values"
+  },
+  "presets": [
+    "small",
+    "medium",
+    "large",
+    "quadrant"
+  ],
+  "backends": [
+    "python",
+    "inkscape"
+  ],
+  "source_count": 3,
+  "generated": 24,
+  "expected": 24,
+  "production_approved": false,
+  "printer_contacted": false,
+  "report": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\45-image-integration\\svg-size-comparison\\report.html",
+  "audit": {
+    "cards": 24,
+    "valid_local_references": 72,
+    "source_hashes_verified": 3,
+    "report_html_sha256": "216f5f19a4446afcb20d565f5389420747c2bfa95d87791f71124e91e018e58c",
+    "report_json_sha256": "c0f3da4df989b7b0e6d1c2f7904b07482c32088ad8abf6879c5228ea03b0c6b9"
+  }
+}

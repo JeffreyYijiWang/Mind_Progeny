@@ -232,8 +232,8 @@ def read_svg(path, width_mm=None, tolerance_mm=0.05):
                   {"backend":"existing-svg", "source_viewbox":vb,"width_mm":width_mm,"curve_tolerance_mm":tolerance_mm})
 
 
-def write_svg(design, path):
-    g=design.geometry; x0,y0,x1,y1=g.bounds
+def write_svg(design, path, *, preserve_canvas=False):
+    g=design.geometry; x0,y0,x1,y1=design.canvas if preserve_canvas else g.bounds
     paths=[]
     for poly in polygons(g):
         rings=[poly.exterior,*poly.interiors]; data=[]
@@ -241,4 +241,4 @@ def write_svg(design, path):
             pts=list(ring.coords)
             data.append("M "+" L ".join(f"{x:.6f},{-y:.6f}" for x,y in pts)+" Z")
         paths.append('<path fill="black" fill-rule="evenodd" d="'+" ".join(data)+'"/>')
-    Path(path).write_text(f'<svg xmlns="http://www.w3.org/2000/svg" width="{x1-x0}mm" height="{y1-y0}mm" viewBox="{x0} {-y1} {x1-x0} {y1-y0}">' + "".join(paths)+"</svg>",encoding="utf-8")
+    Path(path).write_text(f'<svg xmlns="http://www.w3.org/2000/svg" width="{x1-x0}mm" height="{y1-y0}mm" viewBox="{x0} {-y1} {x1-x0} {y1-y0}" overflow="visible">' + "".join(paths)+"</svg>",encoding="utf-8")

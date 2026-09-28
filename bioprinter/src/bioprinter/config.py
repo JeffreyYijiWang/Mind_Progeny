@@ -87,6 +87,9 @@ class Profile(BaseModel):
     def missing(self, production=False):
         missing = [k for k in REQUIRED if getattr(self, k) is None]
         if production:
+            for field in ('needle_gauge_confirmed', 'needle_length_confirmed'):
+                if not getattr(self, field):
+                    missing.append(field)
             missing += [f"confirm:{k}" for k in REQUIRED if k not in self.confirmed_fields]
             missing += [f"confirm:{k}" for k in ("positive_extrusion_direction", "spread_factor") if k not in self.confirmed_fields]
             if self.synthetic:
@@ -112,6 +115,16 @@ class Profile(BaseModel):
 
     def digest(self):
         return hashlib.sha256(json.dumps(self.model_dump(), sort_keys=True).encode()).hexdigest()
+
+    def needle_summary(self):
+        return {'gauge': self.needle_gauge, 'length_mm': self.needle_length_mm,
+                'length_inches': self.needle_length_mm / 25.4,
+                'gauge_confirmed': self.needle_gauge_confirmed,
+                'length_confirmed': self.needle_length_confirmed,
+                'inner_diameter_mm': self.needle_inner_diameter_mm,
+                'outer_diameter_mm': self.needle_outer_diameter_mm,
+                'dimensions_are_synthetic': self.synthetic,
+                'diameter_source': 'invented simulation values' if self.synthetic else 'separate measurements required; never inferred from gauge or length'}
 
 
 SIGNED = {"substrate_z_mm", "z_min", "needle_standoff_mm"}

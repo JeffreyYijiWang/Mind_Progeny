@@ -78,6 +78,9 @@ def trace_bitmap(path, width_mm, *, threshold=128, invert=False, denoise=0,
     # Only the known empty authoring defs is removed; unsupported geometry stays fail-closed.
     XML.ElementTree(root).write(plain,encoding='utf-8',xml_declaration=True)
     design=read_svg(plain,width_mm,max(simplify_mm,.005))
+    resize=np.diag([gray.width/original_size[0],gray.height/original_size[1],1])
+    working_to_normalized=design.transform
+    design.transform=(np.asarray(working_to_normalized)@resize).tolist()
     before=design.geometry.area
     kept=[poly for poly in polygons(design.geometry) if poly.area>=min_area_mm2]
     design.geometry=clean(unary_union(kept).simplify(simplify_mm,preserve_topology=True))
@@ -85,5 +88,7 @@ def trace_bitmap(path, width_mm, *, threshold=128, invert=False, denoise=0,
         invert=invert,denoise=denoise,background=background,min_area_mm2=min_area_mm2,simplify_mm=simplify_mm,
         area_before_filter_mm2=before,area_removed_mm2=before-design.geometry.area,
         original_size_pixels=list(original_size),size_pixels=[gray.width,gray.height],max_pixels=max_pixels,
+        source_coordinate_system='EXIF-oriented original raster pixels',
+        original_to_working=resize.tolist(),working_to_normalized=working_to_normalized,
         width_mm=width_mm,trace_directory=str(folder.resolve()))
     return design

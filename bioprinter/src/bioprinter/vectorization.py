@@ -20,18 +20,22 @@ def vectorize(path, width_mm=None, backend="python", threshold=128, invert=False
         return trace_bitmap(path,width_mm,threshold=threshold,invert=invert,denoise=denoise,
             min_area_mm2=min_area_mm2,simplify_mm=simplify_mm,background=background,mode=mode,trace_dir=trace_dir,max_pixels=max_pixels)
     if backend!="python": raise ValueError(f"Unknown vectorizer {backend}")
-    if max_pixels is not None: raise ValueError('max_pixels is only supported by the Inkscape adapter')
+    if max_pixels is not None and (max_pixels<16 or int(max_pixels)!=max_pixels):
+        raise ValueError('max_pixels must be an integer >=16')
     if mode!="filled": raise ValueError("Raster outline/centerline extraction is not supported; supply stroked SVG paths")
     if width_mm is None or width_mm<=0: raise ValueError("Set a positive width_mm; pixels have no implicit physical size")
     if not 0<=threshold<=255 or denoise<0 or min_area_mm2<0 or simplify_mm<0: raise ValueError("Invalid tracing parameters")
     with Image.open(path) as src:
         if getattr(src,"n_frames",1)!=1: raise ValueError("Multi-page/animated input: export each frame to a separate file")
-        rgba=ImageOps.exif_transpose(src).convert("RGBA")
+        oriented=ImageOps.exif_transpose(src);original_size=list(oriented.size)
+        if max_pixels is not None:
+            oriented.thumbnail((max_pixels,max_pixels),Image.Resampling.LANCZOS)
+        rgba=oriented.convert("RGBA")
     bg=Image.new("RGBA",rgba.size,background);bg.alpha_composite(rgba)
     gray=bg.convert("L")
     if denoise:
         kernel=int(denoise)
-        if kernel<3 or kernel%2!=1: raise ValueError("denoise must be an odd median kernel >=3")
+        if kernel<3 or kernel%2!=1 or kernel!=denoise: raise ValueError("denoise must be an odd median kernel >=3")
         gray=gray.filter(ImageFilter.MedianFilter(kernel))
     mask=(np.asarray(gray)<threshold)
     if invert: mask=~mask
@@ -58,8 +62,13 @@ def vectorize(path, width_mm=None, backend="python", threshold=128, invert=False
     g=clean(unary_union(result))
     g=affinity.affine_transform(g,[scale,0,0,-scale,0,gray.height*scale])
     before=g.area;g=clean(g.simplify(simplify_mm,preserve_topology=True))
-    return Design(g,(0,0,width_mm,gray.height*scale),[[scale,0,0],[0,-scale,gray.height*scale],[0,0,1]],
+    resize=np.diag([gray.width/original_size[0],gray.height/original_size[1],1])
+    normalized=np.array([[scale,0,0],[0,-scale,gray.height*scale],[0,0,1]])
+    return Design(g,(0,0,width_mm,gray.height*scale),(normalized@resize).tolist(),
         {"backend":"python-opencv-contour-hierarchy", "mode":"filled", "width_mm":width_mm,
          "threshold":threshold,"invert":invert,"denoise":denoise,"background":background,
          "min_area_mm2":min_area_mm2,"simplify_mm":simplify_mm,"area_before_simplification_mm2":before,
-         "pixel_edge_uncertainty_mm":scale,"size_pixels":[gray.width,gray.height]})
+         "pixel_edge_uncertainty_mm":scale,"size_pixels":[gray.width,gray.height],
+         "original_size_pixels":original_size,"max_pixels":max_pixels,
+         "source_coordinate_system":"EXIF-oriented original raster pixels",
+         "original_to_working":resize.tolist(),"working_to_normalized":normalized.tolist()})

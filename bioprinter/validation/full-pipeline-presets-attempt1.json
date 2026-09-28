@@ -1,0 +1,206 @@
+{
+  "results": [
+    {
+      "converter": "python",
+      "slicer": "direct",
+      "preset": "small",
+      "status": "passed",
+      "layer_height_mm": 0.5,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\full-pipeline-presets\\runs\\20260928T045141.417994Z_980b114c",
+      "events": 12,
+      "used_mm3": 558.9657437087194,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 109,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 82,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 82,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 81,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 81,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    },
+    {
+      "converter": "python",
+      "slicer": "prusa",
+      "preset": "small",
+      "status": "failed",
+      "layer_height_mm": 0.2,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "error": "Expected newly generated plain-text G-code output. PrusaSlicer log:\nExcessive extrusion_width=1 mm to be printable with a nozzle diameter 0.3 mm\n"
+    },
+    {
+      "converter": "inkscape",
+      "slicer": "direct",
+      "preset": "small",
+      "status": "passed",
+      "layer_height_mm": 0.5,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\full-pipeline-presets\\runs\\20260928T045147.709218Z_88261981",
+      "events": 12,
+      "used_mm3": 565.2499999995048,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 111,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 111,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 112,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 112,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 87,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    },
+    {
+      "converter": "inkscape",
+      "slicer": "prusa",
+      "preset": "small",
+      "status": "failed",
+      "layer_height_mm": 0.2,
+      "needle": {
+        "gauge": 23,
+        "length_mm": 12.7,
+        "length_inches": 0.5,
+        "gauge_confirmed": true,
+        "length_confirmed": true,
+        "inner_diameter_mm": 0.3,
+        "outer_diameter_mm": 0.6,
+        "dimensions_are_synthetic": true,
+        "diameter_source": "invented simulation values"
+      },
+      "error": "Expected newly generated plain-text G-code output. PrusaSlicer log:\nExcessive extrusion_width=1 mm to be printable with a nozzle diameter 0.3 mm\n"
+    }
+  ],
+  "passed": 2,
+  "expected": 4,
+  "default_0_5mm_layer_with_synthetic_0_3mm_bore_rejected": true,
+  "rejection": "Expected newly generated plain-text G-code output. PrusaSlicer log:\nFirst layer height can't be greater than nozzle diameter\n",
+  "printer_contacted": false,
+  "scope": "Windows native CLI software verification. Prusa success uses a separate synthetic 0.2 mm layer fixture; requested nominal 0.5 mm default is unchanged. Bore is not a measurement of the 23 gauge needle."
+}

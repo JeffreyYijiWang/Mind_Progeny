@@ -48,35 +48,44 @@ def direct_raw(paths,profile):
     return '\n'.join(lines)+'\n'
 
 
-def compose(folder, profile=None, *, output_root='runs', width_mm=24, sequences=None, order=None,
+def compose(folder, profile=None, *, output_root='runs', width_mm=None, sequences=None, order=None,
             repeats=1, schedule_mode='round_robin', stack_mode='overlap_aware', anchor='bottom_left',
             registration='shared_canvas', backend='direct', vectorizer='python', per_image=None,
             recursive=False, perimeters=1, infill_density=.15, production=False, progress=None,
-            cancelled=None, quadrant_order=('Q1','Q2','Q3','Q4')):
+            cancelled=None, quadrant_order=('Q1','Q2','Q3','Q4'), preset=None, trace_options=None):
     profile=profile or demo_profile();profile.require(production)
     if repeats<1: raise ValueError('Repeat count must be positive')
     run=new_run(output_root);assets=discover(folder,recursive,order);per_image=per_image or {}
     settings=dict(width_mm=width_mm,repeats=repeats,schedule=schedule_mode,stack_mode=stack_mode,
                   anchor=anchor,registration=registration,backend=backend,vectorizer=vectorizer,
-                  perimeters=perimeters,infill_density=infill_density,per_image=per_image)
+                  perimeters=perimeters,infill_density=infill_density,per_image=per_image,
+                  svg_preset=preset,trace_options=trace_options or {})
     (run/'config.resolved.yaml').write_text(yaml.safe_dump(profile.model_dump(),sort_keys=True),encoding='utf-8')
     manifest={'schema_version':'1.0','run_id':run.name,'status':'processing','production':production,
-        'profile_sha256':profile.digest(),'settings':settings,'assets':[], 'network_contacted':False,
+        'profile_sha256':profile.digest(),'needle':profile.needle_summary(),'settings':settings,'assets':[], 'network_contacted':False,
         'cache_policy':'No reuse; every invocation creates a fresh isolated run. Checkpoints never imply physical resume.'}
     try:
+        write_json(run/'reports'/'needle.json', profile.needle_summary())
         designs={};toolpaths={};by_name={}
         for index,asset in enumerate(assets):
             if cancelled and cancelled(): raise InterruptedError('Cancelled between assets; run is incomplete')
             if progress: progress(f'Prepare {index+1}/{len(assets)}: {asset.path.name}')
             if asset.asset_id in designs: continue
             copy=run/'inputs'/(asset.asset_id+asset.path.suffix.lower());shutil.copy2(asset.path,copy)
-            opts=dict(per_image.get(asset.path.name,{}));explicit=opts.pop('registration_matrix',None)
+            opts={**(trace_options or {}),**per_image.get(asset.path.name,{})};explicit=opts.pop('registration_matrix',None)
+            asset_preset=opts.pop('preset',preset);preset_record=None
             asset_width=opts.pop('width_mm',width_mm)
+            if asset_preset:
+                from .presets import resolve
+                opts,preset_record=resolve(asset.path,asset_preset,profile=profile,width_mm=asset_width,overrides=opts)
+                asset_width=opts.pop('width_mm')
+            elif asset_width is None: asset_width=24
             if vectorizer=='inkscape': opts['trace_dir']=run/'inputs'/(asset.asset_id+'.inkscape')
             d=vectorize(asset.path,width_mm=asset_width,backend=vectorizer,**opts)
+            if preset_record: d.metadata['svg_preset']=preset_record
             d=register(d,anchor,registration,explicit)
             designs[asset.asset_id]=d;by_name[asset.path.relative_to(Path(folder).resolve()).as_posix()]=asset.asset_id
-            svg=run/'inputs'/(asset.asset_id+'.normalized.svg');write_svg(d,svg)
+            svg=run/'inputs'/(asset.asset_id+'.normalized.svg');write_svg(d,svg,preserve_canvas=True)
             mesh=run/'meshes'/(asset.asset_id+'.stl');mesh_info=write_stl(d.geometry,profile.deposition_height_mm,mesh)
             raw=run/'slicer_raw'/(asset.asset_id+'.gcode')
             if backend=='direct':
@@ -88,13 +97,13 @@ def compose(folder, profile=None, *, output_root='runs', width_mm=24, sequences=
             motions,cleanup=interpret(raw.read_text(encoding='utf-8'),e_units=profile.slicer_e_mode)
             converted,volume=convert_slicer(motions,profile)
             if any(m.dwell for m in converted): raise ValueError('Slice dwell requires explicit composition support; remove in audited profile')
-            paths=[]
+            paths=[];allowed_source=d.geometry.buffer(profile.bead_width_mm/2+1e-5)
             for m in converted:
                 if m.kind=='deposit' and m.e_delta:
                     if abs(m.start[2]-m.end[2])>1e-6: raise ValueError('Nonplanar slicer deposition requires separate layer import')
                     if abs(m.end[2]-profile.deposition_height_mm)>1e-4: raise ValueError('Expected a single nominal slice layer')
                     if m.length<=0: raise ValueError('Deposit must have a nonzero path')
-                    if not d.geometry.buffer(profile.bead_width_mm/2+1e-5).covers(LineString([m.start[:2],m.end[:2]])):
+                    if not allowed_source.covers(LineString([m.start[:2],m.end[:2]])):
                         raise ValueError('Slicer changed placement; resolve and record slicer registration before import')
                     paths.append(Toolpath([m.start[:2],m.end[:2]],abs(m.e_delta)*profile.mm3_per_e_unit/m.length,m.source_line))
             if not paths: raise ValueError('Slicer produced no deposition')
@@ -130,7 +139,7 @@ def compose(folder, profile=None, *, output_root='runs', width_mm=24, sequences=
             if cancelled and cancelled(): raise InterruptedError('Cancelled between segments; run incomplete')
             if progress: progress(f'Compose {n}/{len(execution)}: {q} design {index+1}')
             mat,allowed=placements[q];d=designs[aid]
-            svg=run/'quadrants'/FOLDERS[q]/'svgs'/f'{index+1:04d}_{aid}.svg';write_svg(d,svg)
+            svg=run/'quadrants'/FOLDERS[q]/'svgs'/f'{index+1:04d}_{aid}.svg';write_svg(d,svg,preserve_canvas=True)
             transformed=[]
             for path in toolpaths[aid]:
                 coords=[tuple((np.asarray(mat)@[*p,1])[:2]) for p in path.points]

@@ -49,6 +49,7 @@ from bioprinter.external import doctor
 PROFILE = load_profile(ROOT / 'profiles/synthetic.yaml')
 capabilities = doctor(PROFILE)
 display({'Python': capabilities['python'], 'profile': PROFILE.name,
+         'needle': PROFILE.needle_summary(),
          'external': {k: v.get('version', 'not found') for k,v in capabilities['external'].items()},
          'production_allowed': not PROFILE.missing(True)})''')
 md('## Folder, order and per-image settings\n\nNatural filename order is deterministic. Set `ORDER` to a list of filenames to override it; repeated entries repeat designs. `SEQUENCES` can set different lists for Q1–Q4, including empty lists. All input originals are copied and hashed. Multi-page/animated inputs must be split first.')
@@ -56,19 +57,30 @@ code('''from bioprinter.ingestion import discover
 INPUT_FOLDER = ROOT / 'examples/inputs'
 ORDER = None
 SEQUENCES = None  # e.g. {'Q1': ['image1_ring.png'], 'Q2': [], 'Q3': [], 'Q4': []}
-PER_IMAGE = {'image1_ring.png': {'threshold': 128, 'simplify_mm': 0.05}}
+PER_IMAGE = {}  # e.g. {'faint.png': {'threshold': 220, 'denoise': 0}}
 assets = discover(INPUT_FOLDER, order=ORDER)
 display([a.metadata() for a in assets])''')
-md('## Vectorization comparison\n\nThe custom backend extracts real filled polygons with holes. Inkscape 1.4.4 has a fixture-tested native object-trace adapter on Windows. Older versions without that action require Path → Trace Bitmap, remove raster, save Plain SVG. Selecting `inkscape` never silently chooses Python. Existing SVG strokes become filled geometry; raster centerlines are unsupported.')
+md('## Vectorization comparison\n\nThe custom backend extracts real filled polygons with holes. Inkscape 1.4.4 has a fixture-tested native object-trace adapter on Windows. Older versions without that action require Path → Trace Bitmap, remove raster, save Plain SVG. Selecting `inkscape` never silently chooses Python. Existing SVG strokes become filled geometry; raster centerlines are unsupported. Select small (25 × 31.25 mm), medium (50 × 62.5 mm), large (75 × 93.75 mm), or quadrant (profile margins applied). The same preset reaches both converter backends and the full pipeline. Faint sources can use threshold 220 and denoise 0 explicitly; these are starting settings, not a guarantee of feature retention. See docs/conversion-settings.md.')
 code('''from bioprinter.vectorization import vectorize
 from bioprinter.geometry import register, anchor_point
-designs = [vectorize(a.path, width_mm=24) for a in assets]
+from bioprinter.presets import catalog, resolve
+VECTOR_BACKEND = 'python'  # or 'inkscape'; never silently substituted
+SVG_PRESET = 'small'  # small / medium / large / quadrant
+WIDTH_MM = None  # optional explicit width, still constrained by the preset
+TRACE_OPTIONS = {'threshold': 128}
+display(catalog())
+designs = []
+for asset in assets:
+    options, selected = resolve(asset.path, SVG_PRESET, profile=PROFILE,
+        width_mm=WIDTH_MM, overrides={**TRACE_OPTIONS, **PER_IMAGE.get(asset.path.name, {})})
+    design = vectorize(asset.path, backend=VECTOR_BACKEND, **options)
+    design.metadata['svg_preset'] = selected
+    designs.append(design)
 display([{'name': a.path.name, 'backend': d.metadata['backend'], 'area_mm2': round(d.geometry.area, 3),
           'bounds_mm': d.geometry.bounds} for a,d in zip(assets,designs)])
 display(Image(filename=str(assets[0].path)))''')
 md('## Dimensions, anchors and registration\n\n23 gauge and 12.7 mm needle length are the two individually confirmed specifications from the supplied brief. Bore, outer diameter, barrel and bead width are separate. Physical width is mandatory for raster input. Shared canvas is the default: preserve offsets and use a common scale across the stack. Bottom-left is design-local (0,0); the machine origin stays at plate center.')
-code('''WIDTH_MM = 24.0
-ANCHOR = 'bottom_left'
+code('''ANCHOR = 'bottom_left'
 REGISTRATION = 'shared_canvas'
 display({name: anchor_point(designs[0].geometry.bounds, name)
          for name in ['bottom_left','bottom_right','top_left','top_right','center']})
@@ -85,6 +97,7 @@ display({'layer_mm': PROFILE.deposition_height_mm, 'bead_width_mm': PROFILE.bead
 md('## Compose the stack and all four quadrants\n\nQ1 top-right → Q2 bottom-right → Q3 bottom-left → Q4 top-left. Each design is applied to the height field in execution order. Sparse gaps and holes stay empty. At changes in support, lift/relocate instead of extruding through a vertical jump. Keyboard interrupt cancels between/within Python work; an incomplete run is never uploadable.')
 code('''from bioprinter.pipeline import compose, preflight
 RUN = compose(INPUT_FOLDER, PROFILE, output_root=ROOT/'runs', width_mm=WIDTH_MM,
+              preset=SVG_PRESET, vectorizer=VECTOR_BACKEND, trace_options=TRACE_OPTIONS,
               order=ORDER, sequences=SEQUENCES, per_image=PER_IMAGE,
               anchor=ANCHOR, registration=REGISTRATION, backend=BACKEND,
               perimeters=PERIMETERS, infill_density=INFILL_DENSITY,
