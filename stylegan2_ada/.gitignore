@@ -1,0 +1,10 @@
+.venv/
+vendor/
+data/
+weights/
+runs/
+generated/
+__pycache__/
+*.partial
+writer.lock/
+STOP

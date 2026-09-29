@@ -1,0 +1,26 @@
+{
+  "experiment": "neohuman-stylegan2-ada-1024-001",
+  "resolution": 1024,
+  "expected_images": 45,
+  "original_zip": "../workspace/datasets/original/08d993120444b535192ce871c236196618db2e99c28c166a04d4687a3e33460e.zip",
+  "original_sha256": "08d993120444b535192ce871c236196618db2e99c28c166a04d4687a3e33460e",
+  "dataset": "data/neohuman45-1024.zip",
+  "pretrained": "weights/ffhq1024.pkl",
+  "predecessor": "../workspace/experiments/neohuman-local-002-24h",
+  "required_predecessor_hours": 24,
+  "total_kimg": 100,
+  "effective_batch": 4,
+  "microbatch": 1,
+  "seed": 2026,
+  "ada_target": 0.6,
+  "r1_gamma": 2.0,
+  "snapshot_kimg": 1,
+  "preview_images": 4,
+  "backend": "pytorch-reference",
+  "gpu": {
+    "max_allocator_fraction": 0.85,
+    "reserve_mib": 1024,
+    "allow_tf32": true,
+    "fp16_channels_last": true
+  }
+}
