@@ -45,6 +45,20 @@ On later sessions the software is already on Drive. The unchanged original image
 
 Colab GPU availability, session length and limits vary. No uninterrupted availability is promised. This workspace uses ordinary execution and Drive mounting; it includes no keep-alive or restriction-bypass scripts. See the [official Colab FAQ](https://research.google.com/colaboratory/faq.html).
 
+## Extend an existing model to 13 total training hours
+
+Use `NeoHuman_R3GAN_Extend_13h.ipynb` in a GPU Colab runtime. Stop the original training call, then run sections 1–5 in order. Section 4 creates a continuation named `neohuman-colab-001-13h` from the latest verified checkpoint of `neohuman-colab-001`; edit the IDs in section 1 if yours differ. It reuses the prepared dataset already on Drive. Set `RESUME_RUN = True` in section 6 to continue training. Do not use Run all.
+
+The continuation carries the same G, D, EMA, Adam states, step/image counters, elapsed time, random states, sampler, preview noise and event thresholds. Only the experiment ID, total budget and config checksum change. The original experiment remains a backup. **Train only the continuation afterward.** The total is 13 hours: a checkpoint with eight saved hours has about five left. Re-running section 4 reopens the continuation without resetting progress. It rejects active/stale writer locks, unrelated destinations, and incomplete attempts rather than overwriting recovery data. Existing source checkpoint files and training configuration are unchanged.
+
+This additive notebook embeds `scripts/extend_training_budget.py` and uses the original software ZIP on Drive. It does not change shared training-code identity or require replacing that ZIP. Future sessions can rerun the continuation notebook with the same settings. To use the ordinary training or CPU generation notebook afterward, select `neohuman-colab-001-13h` and its saved configuration where applicable. The time limit does not guarantee Colab will provide enough GPU quota in one session.
+
+## Generate images in a CPU-only Colab session
+
+Open `NeoHuman_R3GAN_CPU_Generate.ipynb` in Colab and run its four sections in order. It mounts Drive, loads the original software ZIP already stored there, installs the pinned dependencies using the CPU PyTorch index, and generates from the latest verified checkpoint for `neohuman-colab-001` (editable). If installation requests a restart, restart the runtime and rerun this CPU notebook from the top. No image ZIP, GPU preflight, training smoke test, or training resume is needed.
+
+The helper loads the saved EMA generator onto CPU and writes PNGs, a preview grid and provenance under `experiments/<ID>/generated/cpu-step-<step>-<unique-id>/`. Start with four images; edit `NUM_IMAGES` and `START_SEED` in its last cell for another set. It does not alter training configuration, checkpoint state, counters or writer locks. Existing stale training locks do not need release for this read-only checkpoint access. The helper lives in `scripts/generate_cpu.py` and is embedded in the standalone notebook, so the existing Drive software ZIP need not be replaced and the shared training-code digest remains unchanged. CPU inference does not enable CPU training or promise bitwise CPU/GPU image equality.
+
 ## Dataset and experiment settings
 
 `configs/example.json` is the same JSON format in both notebooks. It has no machine-specific paths. Edit notebook `PROJECT`, `SCRATCH`, and `DATA_ZIP` separately. All config fields are printed before training. Use a new ID for changed hyperparameters; the runner rejects mismatched configs on resume.

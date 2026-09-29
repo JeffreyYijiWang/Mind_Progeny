@@ -162,7 +162,10 @@ def test_notebook_syntax_and_schema():
         for cell in notebook.cells:
             if cell.cell_type == "code":
                 compile(cell.source, str(path) + ":" + cell.id, "exec")
-        assert any("Resume latest verified checkpoint" in c.source for c in notebook.cells)
+        if path.name == "NeoHuman_R3GAN_CPU_Generate.ipynb":
+            assert any("def generate_cpu(" in c.source for c in notebook.cells)
+        else:
+            assert any("Resume latest verified checkpoint" in c.source for c in notebook.cells)
 
 
 def test_cpu_full_state_resume_and_budget(tmp_path):

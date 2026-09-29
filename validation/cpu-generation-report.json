@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "seconds": 6.838675800000146,
+  "platform": "win32",
+  "torch": "2.7.1+cu128",
+  "code": {
+    "shared_sha256": "cc3d8afa1932272986460b36d2eeb7b67abd6fae757b5d00f44fce86b084c82f",
+    "upstream_commit": "19a7ddf463fbac2bd39b4c1c73d63f1c441c7403",
+    "backend": "upstream-reference-fp32",
+    "checkpoint_schema": 1
+  },
+  "source_checkpoint_step": 1486,
+  "source_checkpoint_sha256": "fcfc44adb419b50be554c9518f9f8a9f24881bf00b4baae9c286ce4ecac481bb",
+  "generated_images": 4,
+  "repeated_seed_identical": true,
+  "cpu_rng_preserved": true,
+  "training_files_unchanged": true,
+  "cuda_unavailable_and_initialization_blocked": true,
+  "notebook_schema_and_syntax_valid": true,
+  "live_colab_tested": false,
+  "output": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\workspace\\experiments\\neohuman-local-002\\generated\\cpu-step-000001486-2050585e"
+}

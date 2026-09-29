@@ -1,5 +1,21 @@
 # Validation record — September 26, 2026
 
+## Thirteen-hour continuation addendum
+
+`NeoHuman_R3GAN_Extend_13h.ipynb` embeds `scripts/extend_training_budget.py` and creates a separate full-state continuation with the new total budget, preserving the original experiment. No shared training module or original notebook was changed for this feature.
+
+**Six checks passed in 53.57 seconds**, with no skips, in `validation/extend-budget-pytest.xml`. CPU and real CUDA tests used the small synthetic-data model and an explicit test-only eight-hour clock fixture, then continued one actual training iteration past the old budget. G, D, EMA, both optimizer states, sampler, random states, preview noise and event thresholds matched the corresponding uninterrupted next iteration bit for bit. The initial extension checkpoint differed only in experiment ID, total budget and config checksum. Original experiment files were unchanged, and retrying the extension after further training did not reset its progress.
+
+Additional cases rejected source writer locks, non-increasing budgets, unrelated destinations and incomplete extensions after an injected checkpoint-write failure. All notebook schemas and Python cells passed validation. A nonfatal cuBLAS-context initialization warning appeared during the CUDA test. Live Colab/Drive execution, abrupt power loss during extension, and a real 13-hour training session remain untested. The user's Colab checkpoint was not accessed or changed during these local tests.
+
+## CPU inference addendum
+
+`NeoHuman_R3GAN_CPU_Generate.ipynb` provides separate CPU inference from existing CUDA-trained checkpoints. Its embedded helper is also saved as `scripts/generate_cpu.py`; no shared training module changed. The software digest remains `cc3d8afa1932272986460b36d2eeb7b67abd6fae757b5d00f44fce86b084c82f`.
+
+`scripts/validate_cpu_generation.py` generated four 128×128 RGB PNGs from the real `neohuman-local-002` CUDA checkpoint at step 1486, then repeated seed zero with byte-identical PNG output. The check took 6.84 seconds after interpreter imports on Windows/PyTorch 2.7.1+cu128. CUDA availability was mocked false and CUDA initialization was blocked; all inference tensors were on CPU. Existing training files and CPU RNG state remained unchanged. Notebook schema and every code cell's syntax passed validation. Evidence: `validation/cpu-generation-report.json`.
+
+Live Colab installation/execution and the Linux CPU-only wheel were not tested. The notebook reuses the original pinned workspace ZIP on Drive and requires a runtime restart if already imported dependencies change during installation. CPU/GPU bitwise image equality is not promised.
+
 The package was built and tested in this workspace. The records below describe the initial validation; the September 27 production recovery update appears at the end. **A complete eight-hour production run has not yet been validated.**
 
 ## Actual user dataset

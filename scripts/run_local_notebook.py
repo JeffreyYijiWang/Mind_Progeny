@@ -168,6 +168,7 @@ def main():
     client.on_cell_start = starting_cell
     client.on_cell_executed = finished_cell
     client.save_live(notebook_snapshot=True)
+    write_json(project / "current-local-session.json", {"session_dir": str(session), "run": str(run), "pid": os.getpid(), "started_at": status["started_at"]})
     watcher_stopped = threading.Event()
     watcher = threading.Thread(target=watch_memory, args=(run, session, watcher_stopped), daemon=True)
     watcher.start()
