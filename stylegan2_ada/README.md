@@ -1,5 +1,20 @@
 # NeoHuman: separate StyleGAN2-ADA, native 1024 x 1024
 
+## Authorized eight-hour 256px session
+
+The user requested starting the separate 256px model while the original R3GAN
+remains safely stopped. Use `manage.py --profile 256 train --execute --hours 8
+--allow-stopped-predecessor`. This explicit switch requires the original STOP flag,
+released writer lock and checksum-verified checkpoint. Without the option, the
+original completion guard below still applies.
+
+`--hours` uses elapsed session time, including initialization and snapshot work.
+At the first maintenance tick after eight hours it saves and exits; this can run
+slightly over the budget. Timed runs retain the latest four network snapshots in
+their new run folder. They do not delete snapshots from any earlier run. The usual
+100-kimg limit is replaced by the timer. `current-session.json` identifies the run.
+The stop launcher still requests a graceful save and exit.
+
 ## Choose 256 or 1024
 
 Two independent resolution profiles are now prepared. Both use all 45 originals,

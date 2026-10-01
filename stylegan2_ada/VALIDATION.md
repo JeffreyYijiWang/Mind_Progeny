@@ -83,3 +83,17 @@ that native 1024px training will fit in 8 GB; NVIDIA recommends at least 12 GB.
 
 The first manual GPU run must occur after the current 24-hour run completes.
 The launcher never lowers resolution or retries automatically after failure.
+# Local 256px GPU execution: 2026-09-30
+
+User explicitly requested an eight-hour GPU run. The original R3GAN was stopped,
+its writer released, and its 18.2336-hour checkpoint checksum verified. Launched
+the isolated 256px environment with `--hours 8 --allow-stopped-predecessor`.
+All 20 existing preparation tests passed before launch. The first actual training
+update and network snapshot completed; the saved snapshot checksum was verified.
+Run: `runs/256-20260930-000325-a1f3a0`. Observed NVIDIA utilization 100%, device
+memory used 3023 MiB, temperature 54 C; first-tick PyTorch peak was 2.20 GiB.
+Allocator cap was 5.90 GiB. Charger was connected and Windows AC sleep was Never.
+These observations establish initial training, not eight-hour completion or final
+model quality. Timed stopping is checked at maintenance ticks and retains the four
+latest snapshots; full-duration automatic stopping remains to be observed.
+

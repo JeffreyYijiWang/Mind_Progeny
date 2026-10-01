@@ -4,6 +4,7 @@ import contextlib
 import hashlib
 import io
 import json
+import math
 import os
 from pathlib import Path
 import signal
@@ -208,7 +209,7 @@ def validate_data(cfg):
     return manifest
 
 
-def predecessor_status(cfg):
+def predecessor_status(cfg, allow_stopped=False):
     run = local(cfg["predecessor"])
     if (run / "writer.lock").exists():
         return False, "The original R3GAN still has a writer lock. Leave it running."
@@ -218,6 +219,10 @@ def predecessor_status(cfg):
         if canonical_sha(manifest) != envelope["sha256"]:
             return False, "Original R3GAN checkpoint manifest checksum failed."
         budget = max(24 * 3600, read(run / "config.json")["schedule"]["budget_seconds"])
+        if allow_stopped:
+            if not (run / "STOP").exists():
+                return False, "Explicitly switching requires the original run's STOP flag."
+            budget = 0
         for entry in reversed(manifest["entries"]):
             if entry["training_seconds"] < budget:
                 continue
@@ -225,14 +230,14 @@ def predecessor_status(cfg):
             if not checkpoint.is_relative_to(run) or checkpoint.stat().st_size != entry["bytes"]:
                 continue
             if sha(checkpoint) == entry["sha256"]:
-                return True, f"Original R3GAN completed {entry['training_seconds'] / 3600:.4f} training hours; checkpoint verified."
+                return True, f"Original R3GAN saved {entry['training_seconds'] / 3600:.4f} training hours; checkpoint verified; writer released."
         return False, "Original R3GAN has not saved a verified checkpoint completing its 24-hour budget."
     except (OSError, KeyError, ValueError) as exc:
         return False, f"Could not verify predecessor completion: {exc}"
 
 
-def require_predecessor(cfg):
-    ready, message = predecessor_status(cfg)
+def require_predecessor(cfg, allow_stopped=False):
+    ready, message = predecessor_status(cfg, allow_stopped)
     if not ready:
         raise RuntimeError(message + " New model execution is blocked; nothing was started.")
     print(message)
@@ -314,16 +319,21 @@ def resolve_snapshot(value, cfg=None):
 def train_model(cfg, cli):
     if not cli.execute:
         raise RuntimeError("Training is opt-in: use train --execute after the original 24-hour run finishes.")
-    require_predecessor(cfg)  # Before PyTorch import, model loading, or CUDA initialization.
+    hours = getattr(cli, "hours", None)
+    if hours is not None and (not math.isfinite(hours) or hours <= 0):
+        raise ValueError("hours must be finite and positive.")
+    require_predecessor(cfg, getattr(cli, "allow_stopped_predecessor", False))
     with writer_lock():
         resume = resolve_snapshot(cli.resume, cfg) if cli.resume else verify_pretrained(cfg)
         # Snapshot retention is intentional; reserve an estimate for the entire segment.
-        estimated_disk = int(resume.stat().st_size * (cfg["total_kimg"] + 2) * 1.2)
+        estimated_disk = int(resume.stat().st_size * (6 if hours else cfg["total_kimg"] + 2) * 1.2)
         free_disk = shutil.disk_usage(ROOT).free
         if free_disk < estimated_disk:
             raise RuntimeError(f"About {estimated_disk / 1024**3:.1f} GiB free disk is required for this segment's snapshots; "
                                f"only {free_disk / 1024**3:.1f} GiB is available. Free space or reduce total_kimg.")
         args = upstream_args(cfg, resume)
+        if hours is not None:
+            args.total_kimg = 1_000_000_000  # The elapsed-time budget controls this segment.
         import torch
         from training import training_loop
         from torch_utils import training_stats
@@ -345,6 +355,8 @@ def train_model(cfg, cli):
         run = ROOT / "runs" / (f"{cfg['resolution']}-" + time.strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:6])
         run.mkdir(parents=True)
         args.run_dir = str(run)
+        write(ROOT / "current-session.json", {"run": str(run), "pid": os.getpid(), "hours": hours})
+        write(run / "session-budget.json", {"hours": hours, "clock": "elapsed wall time including setup and snapshots", "keep_latest_snapshots": 4 if hours else None})
         write(run / "training_options.json", dict(args))
         write(run / "config.json", cfg)
         write(run / "provenance.json", {"upstream": check_source(), "source_weights": str(resume),
@@ -354,6 +366,12 @@ def train_model(cfg, cli):
         stop = ROOT / "STOP"
         stop.unlink(missing_ok=True)
         previous_handler = signal.getsignal(signal.SIGINT)
+        started = time.monotonic()
+
+        def should_stop():
+            if hours is not None and time.monotonic() - started >= hours * 3600:
+                stop.write_text("Elapsed session budget reached.\n", encoding="utf-8")
+            return stop.exists()
 
         def request_stop(*_):
             stop.write_text("Stop at next maintenance tick.\n", encoding="utf-8")
@@ -368,7 +386,13 @@ def train_model(cfg, cli):
                 if old.get("mtime_ns") != stat.st_mtime_ns or old.get("bytes") != stat.st_size:
                     write(receipt, {"sha256": sha(snapshot), "bytes": stat.st_size,
                                     "mtime_ns": stat.st_mtime_ns, "kimg_floor": kimg})
+            if hours is not None:
+                snapshots = sorted(run.glob("network-snapshot-*.pkl"))
+                for expired in snapshots[:-4]:
+                    expired.unlink()
+                    expired.with_suffix(".verified.json").unlink()
             write(run / "status.json", {"kimg_floor": kimg, "total_kimg": total_kimg,
+                                        "elapsed_hours": (time.monotonic() - started) / 3600, "budget_hours": hours,
                                         "gpu_memory": memory_status(torch), "gpu_budget": gpu_budget,
                                         "stop_requested": stop.exists(), "updated_at": time.time()})
 
@@ -378,7 +402,7 @@ def train_model(cfg, cli):
         try:
             with dnnlib.util.Logger(file_name=str(run / "log.txt"), file_mode="a", should_flush=True):
                 print("8 GiB profile: fit and speed are not guaranteed. An OOM stops this run; no automatic restart.")
-                training_loop.training_loop(**args, abort_fn=stop.exists, progress_fn=progress)
+                training_loop.training_loop(**args, abort_fn=should_stop, progress_fn=progress)
             write(run / "result.json", {"status": "stopped" if stop.exists() else "completed", "time": time.time()})
         except BaseException as exc:
             write(run / "result.json", {"status": "failed", "error": f"{type(exc).__name__}: {exc}", "time": time.time()})
@@ -390,7 +414,7 @@ def train_model(cfg, cli):
 def generate(cfg, cli):
     if not cli.execute:
         raise RuntimeError("Generation is opt-in: add --execute after the original 24-hour run finishes.")
-    require_predecessor(cfg)
+    require_predecessor(cfg, getattr(cli, "allow_stopped_predecessor", False))
     with writer_lock():
         snapshot = resolve_snapshot(cli.snapshot, cfg)
         check_source()
@@ -431,9 +455,12 @@ def main():
         subs.add_parser(name)
     train = subs.add_parser("train")
     train.add_argument("--execute", action="store_true")
+    train.add_argument("--hours", type=float, help="Elapsed session hours; stops and saves at the next maintenance tick; retains latest four snapshots")
+    train.add_argument("--allow-stopped-predecessor", action="store_true", help="Explicit user-authorized switch from a stopped, checkpoint-verified R3GAN")
     train.add_argument("--resume", help="Own verified .pkl snapshot; starts a new segment with fresh optimizer and counters")
     gen = subs.add_parser("generate")
     gen.add_argument("--execute", action="store_true")
+    gen.add_argument("--allow-stopped-predecessor", action="store_true", help="User-authorized generation while the original R3GAN remains safely stopped")
     gen.add_argument("--snapshot", required=True)
     gen.add_argument("--seeds", default="0,1,2,3")
     gen.add_argument("--truncation", type=float, default=0.7)
