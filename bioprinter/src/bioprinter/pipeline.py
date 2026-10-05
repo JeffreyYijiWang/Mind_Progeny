@@ -51,21 +51,42 @@ def direct_raw(paths,profile):
 def compose(folder, profile=None, *, output_root='runs', width_mm=None, sequences=None, order=None,
             repeats=1, schedule_mode='round_robin', stack_mode='overlap_aware', anchor='bottom_left',
             registration='shared_canvas', backend='direct', vectorizer='python', per_image=None,
-            recursive=False, perimeters=1, infill_density=.15, production=False, progress=None,
-            cancelled=None, quadrant_order=('Q1','Q2','Q3','Q4'), preset=None, trace_options=None):
+            recursive=False, perimeters=None, infill_density=None, production=False, progress=None,
+            cancelled=None, quadrant_order=('Q1','Q2','Q3','Q4'), preset=None, trace_options=None,
+            prusa_config=None, top_solid_layers=None, bottom_solid_layers=None):
     profile=profile or demo_profile();profile.require(production)
     if repeats<1: raise ValueError('Repeat count must be positive')
+    if prusa_config is not None and backend != 'prusa':
+        raise ValueError('prusa_config requires backend prusa; it cannot be silently ignored')
+    if prusa_config is None:
+        perimeters = 1 if perimeters is None else perimeters
+        infill_density = .15 if infill_density is None else infill_density
+    if infill_density is not None and (not math.isfinite(infill_density) or not 0 <= infill_density <= 1):
+        raise ValueError('infill_density must be between 0 and 1')
+    if prusa_config is not None:
+        from .prusa_config import load_bundle
+        prusa_config = load_bundle(prusa_config)  # immutable source bytes for the entire run
     run=new_run(output_root);assets=discover(folder,recursive,order);per_image=per_image or {}
     settings=dict(width_mm=width_mm,repeats=repeats,schedule=schedule_mode,stack_mode=stack_mode,
                   anchor=anchor,registration=registration,backend=backend,vectorizer=vectorizer,
                   perimeters=perimeters,infill_density=infill_density,per_image=per_image,
-                  svg_preset=preset,trace_options=trace_options or {})
+                  svg_preset=preset,trace_options=trace_options or {},
+                  top_solid_layers=top_solid_layers,bottom_solid_layers=bottom_solid_layers,
+                  prusa_config='slicer-config/bundle.json' if prusa_config else None)
     (run/'config.resolved.yaml').write_text(yaml.safe_dump(profile.model_dump(),sort_keys=True),encoding='utf-8')
     manifest={'schema_version':'1.0','run_id':run.name,'status':'processing','production':production,
         'profile_sha256':profile.digest(),'needle':profile.needle_summary(),'settings':settings,'assets':[], 'network_contacted':False,
         'cache_policy':'No reuse; every invocation creates a fresh isolated run. Checkpoints never imply physical resume.'}
     try:
         write_json(run/'reports'/'needle.json', profile.needle_summary())
+        if prusa_config:
+            from .slicing import resolve_prusa_config
+            prusa_config.snapshot(run/'slicer-config')
+            _, report, _ = resolve_prusa_config(profile,profile.needle_inner_diameter_mm,
+                prusa_config=prusa_config,perimeters=perimeters,
+                density=None if infill_density is None else infill_density*100,
+                top=top_solid_layers,bottom=bottom_solid_layers)
+            write_json(run/'reports'/'prusa-config.json',report)
         designs={};toolpaths={};by_name={}
         for index,asset in enumerate(assets):
             if cancelled and cancelled(): raise InterruptedError('Cancelled between assets; run is incomplete')
@@ -89,10 +110,13 @@ def compose(folder, profile=None, *, output_root='runs', width_mm=None, sequence
             mesh=run/'meshes'/(asset.asset_id+'.stl');mesh_info=write_stl(d.geometry,profile.deposition_height_mm,mesh)
             raw=run/'slicer_raw'/(asset.asset_id+'.gcode')
             if backend=='direct':
-                paths=direct_paths(d.geometry,profile,perimeters,infill_density)
+                paths=direct_paths(d.geometry,profile,perimeters,infill_density,
+                                   top_solid=top_solid_layers or 0,bottom_solid=bottom_solid_layers or 0)
                 raw.write_text(direct_raw(paths,profile),encoding='ascii')
             elif backend=='prusa':
-                prusa_slice(mesh,raw,profile,profile.needle_inner_diameter_mm,perimeters=perimeters,density=infill_density*100)
+                prusa_slice(mesh,raw,profile,profile.needle_inner_diameter_mm,perimeters=perimeters,
+                    density=None if infill_density is None else infill_density*100,
+                    top=top_solid_layers,bottom=bottom_solid_layers,prusa_config=prusa_config)
             else: raise ValueError('Select backend direct or prusa')
             motions,cleanup=interpret(raw.read_text(encoding='utf-8'),e_units=profile.slicer_e_mode)
             converted,volume=convert_slicer(motions,profile)

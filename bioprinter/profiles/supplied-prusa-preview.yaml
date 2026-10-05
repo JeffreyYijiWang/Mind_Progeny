@@ -1,0 +1,52 @@
+# Preview ONLY. INI nozzle=0.33 is an unverified slicer value, not a measured needle bore.
+# INI filament_diameter=10.3 is only the raw slicer E convention, not a barrel measurement.
+# Layer/bead/speed use source print settings; remaining values are invented demo values.
+# Extrusion multiplier 2.85 is overridden to 1 by the adapter; syringe calibration stays synthetic.
+name: SYNTHETIC-supplied-Prusa-0.05mm-preview
+synthetic: true
+needle_gauge: 23
+needle_length_mm: 12.7
+needle_gauge_confirmed: true
+needle_length_confirmed: true
+needle_inner_diameter_mm: 0.33
+needle_outer_diameter_mm: 0.6
+syringe_barrel_inner_diameter_mm: 20.0
+plunger_stroke_mm: 80.0
+mm3_per_e_unit: 100.0
+plunger_mm_per_e_unit: 0.3183098861837907
+positive_extrusion_direction: 1
+capacity_mm3: 20000.0
+bead_width_mm: 0.37
+deposition_height_mm: 0.05
+first_deposition_tip_height_mm: 0.05
+substrate_z_mm: 0.0
+needle_standoff_mm: 0.1
+x_min: -101.6
+x_max: 101.6
+y_min: -127.0
+y_max: 127.0
+z_min: 0.0
+z_max: 100.0
+holder_radius_mm: 2.0
+holder_bottom_above_tip_mm: 12.7
+travel_clearance_mm: 2.0
+edge_margin_mm: 4.0
+centerline_margin_mm: 4.0
+xy_speed_mm_s: 30.0
+z_speed_mm_s: 8.0
+e_speed_units_s: 5.0
+xy_accel_mm_s2: 100.0
+z_accel_mm_s2: 40.0
+e_accel_units_s2: 20.0
+deposition_speed_mm_s: 5.0
+grid_mm: 0.185
+sample_mm: 0.185
+spread_factor: 1.0
+slicer_filament_diameter_mm: 10.3
+slicer_e_mode: filament_mm
+firmware_version: null
+firmware_tool_number: null
+cold_extrusion_reviewed: false
+machine_setup_reviewed: false
+confirmed_fields: []
+duet_url: http://hans.local

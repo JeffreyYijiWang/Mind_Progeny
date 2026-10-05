@@ -102,6 +102,14 @@ The real PrusaSlicer 2.9.6 CLI was tested using synthetic geometry/dimensions.
 This does not confirm the actual needle bore or compatibility with 0.5 mm deposition.
 Raw slicer files are untrusted and cannot be uploaded through this application.
 
+The supplied print/filament/printer INIs are integrated as
+`profiles/prusaslicer/supplied-2026-05`. Select all three together with
+`--backend prusa --prusa-config profiles/prusaslicer/supplied-2026-05`.
+Use `--profile profiles/supplied-prusa-preview.yaml` for the separate synthetic
+0.05 mm-layer preview. Source settings, required overrides, notebook controls
+and runnable examples are in [Prusa configuration setup](docs/prusa-configs.md).
+The 0.5 mm nominal default and 23-gauge × ½-inch needle identity remain unchanged.
+
 ## What each run contains
 
 Every run gets a collision-resistant UTC timestamp/UUID directory. The manifest links

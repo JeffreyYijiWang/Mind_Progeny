@@ -1,0 +1,217 @@
+{
+  "results": [
+    {
+      "converter": "python",
+      "status": "passed",
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\supplied-prusa-configs\\runs\\20261005T004124.313784Z_b079e9ac",
+      "assets": 3,
+      "events": 12,
+      "volume_mm3": 101.44062060754936,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 198,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 276,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 276,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 197,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 302,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 311,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 305,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 294,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    },
+    {
+      "converter": "inkscape",
+      "status": "passed",
+      "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\supplied-prusa-configs\\runs\\20261005T004219.222801Z_c55f2c69",
+      "assets": 3,
+      "events": 12,
+      "volume_mm3": 104.06029230548572,
+      "diagnostics": [
+        {
+          "event": "event-0005",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 301,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0006",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 325,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0007",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 316,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0008",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 287,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0009",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 298,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0010",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 288,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0011",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 291,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        },
+        {
+          "event": "event-0012",
+          "severity": "production-blocking",
+          "issue": "partially supported/variable-height footprint",
+          "sample_count": 291,
+          "reason": "Model cannot establish continuous liquid support; change paths/order or validate a richer model"
+        }
+      ]
+    }
+  ],
+  "passed": 2,
+  "expected": 2,
+  "bundle_sha256": "48654dfdc0d1857489b7200245e488eef7b4669b48aedb8761914402d1b98a23",
+  "sources": [
+    {
+      "role": "print",
+      "path": "print.ini",
+      "archive_member": "PRUSACONFIGS/Bioprinting update 5-5-26.ini",
+      "sha256": "8f45126de8ef2e9fa5f1e13cb480a3b8853a675cf14fd26ad7f4d84c987f7c3c"
+    },
+    {
+      "role": "filament",
+      "path": "filament.ini",
+      "archive_member": "PRUSACONFIGS/Bioprinting update 5-8-26.ini",
+      "sha256": "392633916303d10d6fecffc662031edd629f9dce3fccf9b09e98b0004e7adf78"
+    },
+    {
+      "role": "printer",
+      "path": "printer.ini",
+      "archive_member": "PRUSACONFIGS/Bioprinting update 5-8-26 Test.ini",
+      "sha256": "b8c6fb13b251eb363eedc63e05ff781d9ab4c465e6c71d164bbdafed1b224e04"
+    }
+  ],
+  "setting_actions": {
+    "retained": 77,
+    "ignored": 265,
+    "overridden": 31
+  },
+  "profile": {
+    "name": "SYNTHETIC-supplied-Prusa-0.05mm-preview",
+    "synthetic": true,
+    "needle_gauge": 23,
+    "needle_length_mm": 12.7,
+    "needle_gauge_confirmed": true,
+    "needle_length_confirmed": true,
+    "needle_inner_diameter_mm": 0.33,
+    "needle_outer_diameter_mm": 0.6,
+    "syringe_barrel_inner_diameter_mm": 20.0,
+    "plunger_stroke_mm": 80.0,
+    "mm3_per_e_unit": 100.0,
+    "plunger_mm_per_e_unit": 0.3183098861837907,
+    "positive_extrusion_direction": 1,
+    "capacity_mm3": 20000.0,
+    "bead_width_mm": 0.37,
+    "deposition_height_mm": 0.05,
+    "first_deposition_tip_height_mm": 0.05,
+    "substrate_z_mm": 0.0,
+    "needle_standoff_mm": 0.1,
+    "x_min": -101.6,
+    "x_max": 101.6,
+    "y_min": -127.0,
+    "y_max": 127.0,
+    "z_min": 0.0,
+    "z_max": 100.0,
+    "holder_radius_mm": 2.0,
+    "holder_bottom_above_tip_mm": 12.7,
+    "travel_clearance_mm": 2.0,
+    "edge_margin_mm": 4.0,
+    "centerline_margin_mm": 4.0,
+    "xy_speed_mm_s": 30.0,
+    "z_speed_mm_s": 8.0,
+    "e_speed_units_s": 5.0,
+    "xy_accel_mm_s2": 100.0,
+    "z_accel_mm_s2": 40.0,
+    "e_accel_units_s2": 20.0,
+    "deposition_speed_mm_s": 5.0,
+    "grid_mm": 0.185,
+    "sample_mm": 0.185,
+    "spread_factor": 1.0,
+    "slicer_filament_diameter_mm": 10.3,
+    "slicer_e_mode": "filament_mm",
+    "firmware_version": null,
+    "firmware_tool_number": null,
+    "cold_extrusion_reviewed": false,
+    "machine_setup_reviewed": false,
+    "confirmed_fields": [],
+    "duet_url": "http://hans.local"
+  },
+  "printer_contacted": false,
+  "production_approved": false,
+  "scope": "Native Windows CLI, synthetic fixtures; original 45-image report is not a rerun with these configs."
+}

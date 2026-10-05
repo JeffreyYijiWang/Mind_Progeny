@@ -1,0 +1,3 @@
+# Keep the exact imported bytes and provenance hashes on every OS.
+*.ini -text
+bundle.json -text

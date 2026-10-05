@@ -144,3 +144,14 @@ main. Work stays on `bioprinter-setup`; `origin/bioprinter` was already an ances
 No main ref, root GAN files/environment, remote branch or printer is modified.
 See [0005](docs/decisions/0005-conversion-presets-and-integration.md),
 [settings](docs/conversion-settings.md), and final validation evidence.
+
+2026-10-05: supplied Prusa 2.9.4 exports are a three-role bundle in
+`profiles/prusaslicer/supplied-2026-05`. `prusa_config.py` imports ZIP data,
+verifies original hashes and snapshots exact bytes; never pass originals directly
+to Prusa. `slicing.resolve_prusa_config` imports only reviewed print-path options,
+then applies explicit overrides and authoritative YAML/offline policy. Record every
+source setting and disposition. INI bore, filament convention and multiplier do not
+confirm hardware. `supplied-prusa-preview.yaml` is a separate synthetic 0.05 mm
+fixture; nominal 0.5 mm is unchanged. Source 0% sparse infill plus one top/bottom
+layer means solid single-layer fill. See [0006](docs/decisions/0006-supplied-prusa-configs.md)
+and [configuration guide](docs/prusa-configs.md). This work stays on `bioprinter-setup`.

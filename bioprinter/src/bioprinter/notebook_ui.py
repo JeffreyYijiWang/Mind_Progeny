@@ -16,6 +16,9 @@ def batch_panel(folder,profile,output_root):
     preset=w.Dropdown(options=[('Custom width',None),*((name,name) for name in PRESETS)],description='SVG size')
     vectorizer=w.Dropdown(options=[('Python converter','python'),('Inkscape','inkscape')],description='Converter')
     slicer=w.Dropdown(options=['direct','prusa'],description='Slicer')
+    prusa_config=w.Text(value='',description='Prusa bundle',placeholder='Optional path to imported bundle.json',layout=w.Layout(width='90%'))
+    prusa_config.disabled=True
+    slicer.observe(lambda change:setattr(prusa_config,'disabled',change['new']!='prusa'),names='value')
     threshold=w.IntSlider(value=128,min=1,max=255,description='Threshold')
     preset.observe(lambda change:setattr(width,'disabled',change['new'] is not None),names='value')
     needle=w.HTML(value=f'<b>Needle: {profile.needle_gauge} gauge × {profile.needle_length_mm:g} mm '
@@ -43,6 +46,7 @@ def batch_panel(folder,profile,output_root):
         try:
             options=dict(width_mm=None if preset.value else width.value,preset=preset.value,
                          vectorizer=vectorizer.value,backend=slicer.value,trace_options={'threshold':threshold.value},
+                         prusa_config=(prusa_config.value.strip() or None) if slicer.value=='prusa' else None,
                          anchor=anchor.value,registration=registration.value,
                          stack_mode=mode.value,order=list(order.options),per_image=json.loads(per_image.value))
         except Exception as exc:output.append_stdout(str(exc)+'\n');return
@@ -56,7 +60,7 @@ def batch_panel(folder,profile,output_root):
             finally:state['running']=False;start.disabled=False
         Thread(target=worker,daemon=True).start()
     start.on_click(run)
-    panel=w.VBox([needle,folder,refresh,order,w.HBox([up,down]),w.HBox([preset,width,vectorizer,slicer]),threshold,
+    panel=w.VBox([needle,folder,refresh,order,w.HBox([up,down]),w.HBox([preset,width,vectorizer,slicer]),prusa_config,threshold,
                   w.HBox([anchor,registration,mode]),per_image,w.HBox([start,cancel]),output])
     display(panel)
     return state

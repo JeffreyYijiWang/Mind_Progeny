@@ -1,0 +1,14 @@
+{
+  "run": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\supplied-prusa-real-image\\runs\\20261005T004538.797057Z_cc6fd7df",
+  "source": "C:\\Users\\Jeffr\\OneDrive\\Documents\\GitHub\\Mind_Progeny\\bioprinter\\validation\\dataset-runs\\45-image-integration\\inputs\\DATA SET\\HANSBOX26000003.png",
+  "source_sha256": "1a18b621cf6fe451b155ede090232fd377b0fbcf2858a4933c6ba9b71e7be7b6",
+  "status": "passed",
+  "events": 4,
+  "vectorizer": "inkscape",
+  "slicer": "PrusaSlicer",
+  "preset": "small",
+  "volume_mm3": 16.01799259560574,
+  "diagnostics": [],
+  "printer_contacted": false,
+  "production_approved": false
+}

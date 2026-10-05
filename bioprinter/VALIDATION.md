@@ -231,3 +231,49 @@ Executed checks, using `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1` in the test pr
 - `git diff --check` passed. Browser GUI layout/filter clicks remain unverified due
   to the local-file browser automation restriction described above. Native Windows
   CLIs were tested; macOS/Linux runtime and physical printer operation were not.
+
+## Supplied PrusaSlicer configs
+
+2026-10-05 UTC, `bioprinter-setup`. Imported all three complementary exports from
+`PRUSACONFIGS-20261005T003011Z-1-001.zip` (SHA-256
+`0ee6b18d181e2e461e33d5aaab0502f4a1a88eb5ed357f56c0aa0fc2a78969c7`).
+Original INI bytes and member names/hashes are retained in
+`profiles/prusaslicer/supplied-2026-05`; Git text conversion is disabled there to
+preserve source hashes across Windows/POSIX checkouts. The headers identify
+PrusaSlicer 2.9.4; installed native tests used PrusaSlicer 2.9.6 and Inkscape 1.4.4.
+
+- `.venv/Scripts/python.exe -X utf8 -m pytest -q --junitxml=validation/pytest-prusa-configs.xml`:
+  **134 passed**, 14 existing Matplotlib/pyparsing deprecation warnings. Includes
+  all 11 notebook code cells freshly executed with external HTTP blocked, source
+  import/role/hash checks, hostile ZIP paths, private fields, disabled executable
+  hooks, source/profile precedence and the existing offline suite.
+- A subsequent sidecar-relative-path correction and CLI forwarding regression
+  were checked with `-m pytest tests/test_prusa_config.py -q
+  --junitxml=validation/pytest-prusa-configs-final-targeted.xml`: **16 passed**.
+  The new CLI test was added after the 134-test full-suite run.
+- `scripts/verify_prusa_configs.py --output validation/dataset-runs/supplied-prusa-configs
+  --summary validation/supplied-prusa-configs-summary.json`: **2/2 complete native
+  combinations**, Python → Prusa and Inkscape → Prusa. Each traced three synthetic
+  source images and composed **12 events across Q1–Q4**, with exact source snapshots,
+  resolved configs, strict G-code interpretation and full run preflight. Summary
+  preserves eight expected synthetic overlap/support diagnostics per run; these
+  demonstration stacks are not production-approved. The Inkscape plate preview
+  was visually inspected. Source audit: 77 values matching the resolved config,
+  31 overridden, 265 ignored; only reviewed print-path settings are imported.
+- The real dataset image **HANSBOX26000003.png** also passed the CLI path using
+  `--preset small --vectorizer inkscape --backend prusa --prusa-config
+  profiles/prusaslicer/supplied-2026-05 --profile profiles/supplied-prusa-preview.yaml`.
+  One unchanged/hash-verified source, **four quadrant events**, 16.0179926 mm³
+  modeled use, no support diagnostics, complete preflight. Evidence:
+  `validation/supplied-prusa-real-image-summary.json`. This is one image, not a
+  new 45-image batch; historical image reports retain their original results.
+- Successful tests use the explicitly synthetic **0.05 mm layer, 0.37 mm nominal
+  bead, unverified 0.33 mm nozzle, 10.3 mm raw-E filament convention**. Nominal
+  0.5 mm defaults and unmeasured real-needle profile remain unchanged. The source
+  2.85 multiplier is overridden to 1; syringe flow calibration remains synthetic.
+  One top and bottom solid layer are retained, producing solid single-layer fill
+  even though sparse infill is 0%. No source INI establishes hardware calibration.
+- Main was at `1cdebcb` when this task began and remains there. Only bioprinter
+  files were edited; root GAN work was preserved. `git diff --check` passed.
+  No printer contact, upload, physical print test or global Prusa preference edit.
+  macOS/Linux execution and GUI controls were not tested in this task.

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "archive_name": "PRUSACONFIGS-20261005T003011Z-1-001.zip",
+  "archive_sha256": "0ee6b18d181e2e461e33d5aaab0502f4a1a88eb5ed357f56c0aa0fc2a78969c7",
+  "sources": [
+    {
+      "role": "print",
+      "path": "print.ini",
+      "archive_member": "PRUSACONFIGS/Bioprinting update 5-5-26.ini",
+      "sha256": "8f45126de8ef2e9fa5f1e13cb480a3b8853a675cf14fd26ad7f4d84c987f7c3c"
+    },
+    {
+      "role": "filament",
+      "path": "filament.ini",
+      "archive_member": "PRUSACONFIGS/Bioprinting update 5-8-26.ini",
+      "sha256": "392633916303d10d6fecffc662031edd629f9dce3fccf9b09e98b0004e7adf78"
+    },
+    {
+      "role": "printer",
+      "path": "printer.ini",
+      "archive_member": "PRUSACONFIGS/Bioprinting update 5-8-26 Test.ini",
+      "sha256": "b8c6fb13b251eb363eedc63e05ff781d9ab4c465e6c71d164bbdafed1b224e04"
+    }
+  ]
+}

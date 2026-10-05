@@ -24,11 +24,23 @@ def trace_settings(args):
             if getattr(args,key) is not None}
 
 
+def slicer_arguments(parser):
+    parser.add_argument('--prusa-config',help='Imported bundle.json or its directory; requires --backend prusa')
+    parser.add_argument('--perimeters',type=int)
+    parser.add_argument('--infill',type=float,help='Fraction 0..1; omitted uses bundle settings or pipeline default')
+    parser.add_argument('--top-solid-layers',type=int)
+    parser.add_argument('--bottom-solid-layers',type=int)
+
+
 def main(argv=None):
     parser=argparse.ArgumentParser(prog='bioprinter',description='Offline by default. Printer actions are explicit duet subcommands.')
     sub=parser.add_subparsers(dest='command',required=True)
     doctor=sub.add_parser('doctor');doctor.add_argument('--profile')
     sub.add_parser('presets',help='List physical canvas and converter settings')
+    imp=sub.add_parser('import-prusa-configs',help='Import three exported INIs from a ZIP without running them')
+    imp.add_argument('archive');imp.add_argument('destination')
+    review=sub.add_parser('prusa-config',help='Review effective settings and every source override offline')
+    review.add_argument('bundle');review.add_argument('--profile',required=True)
     demo=sub.add_parser('demo');demo.add_argument('--output',default='runs');demo.add_argument('--video',action='store_true')
     for command in ('compose','export'):
         p=sub.add_parser(command);p.add_argument('folder');p.add_argument('--profile',required=True)
@@ -39,10 +51,11 @@ def main(argv=None):
         p.add_argument('--anchor',choices=['bottom_left','bottom_right','top_left','top_right','center'],default='bottom_left')
         p.add_argument('--schedule',choices=['round_robin','complete_stack'],default='round_robin')
         p.add_argument('--mode',choices=['overlap_aware','planar_stack'],default='overlap_aware');p.add_argument('--recursive',action='store_true')
-        p.add_argument('--production',action='store_true');p.add_argument('--perimeters',type=int,default=1);p.add_argument('--infill',type=float,default=.15)
+        p.add_argument('--production',action='store_true');slicer_arguments(p)
     vec=sub.add_parser('vectorize');vec.add_argument('input');vec.add_argument('output');vec.add_argument('--width-mm',type=float)
     vec.add_argument('--backend',choices=['python','inkscape'],default='python');vec.add_argument('--profile');trace_arguments(vec)
     sl=sub.add_parser('slice');sl.add_argument('svg');sl.add_argument('output');sl.add_argument('--profile',required=True);sl.add_argument('--width-mm',type=float,required=True);sl.add_argument('--backend',choices=['direct','prusa'],default='direct')
+    slicer_arguments(sl)
     sim=sub.add_parser('simulate');sim.add_argument('run')
     vid=sub.add_parser('video');vid.add_argument('run');vid.add_argument('--fps',type=float,default=24);vid.add_argument('--width',type=int,default=640);vid.add_argument('--height',type=int,default=480);vid.add_argument('--codec',default='libx264');vid.add_argument('--quadrants',action='store_true');vid.add_argument('--timeline');vid.add_argument('--policy',choices=['contain','crop'],default='contain');vid.add_argument('--background',default='white')
     duet=sub.add_parser('duet');duet.add_argument('--url',default='http://hans.local');ds=duet.add_subparsers(dest='action',required=True)
@@ -54,6 +67,14 @@ def main(argv=None):
         control=ds.add_parser(action);control.add_argument('--reviewed-macros',action='store_true')
     args=parser.parse_args(argv)
     try:
+        if args.command=='import-prusa-configs':
+            from .prusa_config import import_zip
+            print(import_zip(args.archive,args.destination).resolve());return
+        if args.command=='prusa-config':
+            from .slicing import resolve_prusa_config
+            profile=load_profile(args.profile);profile.require()
+            _,audit,_=resolve_prusa_config(profile,profile.needle_inner_diameter_mm,prusa_config=args.bundle)
+            print(json.dumps(audit,indent=2));return
         if args.command=='presets':
             from .presets import catalog
             print(json.dumps(catalog(),indent=2));return
@@ -78,6 +99,7 @@ def main(argv=None):
                 backend=args.backend,vectorizer=args.vectorizer,repeats=args.repeats,anchor=args.anchor,
                 registration=args.registration,schedule_mode=args.schedule,stack_mode=args.mode,recursive=args.recursive,
                 production=args.production,perimeters=args.perimeters,infill_density=args.infill,progress=print,
+                prusa_config=args.prusa_config,top_solid_layers=args.top_solid_layers,bottom_solid_layers=args.bottom_solid_layers,
                 preset=args.preset,trace_options=trace_settings(args),**overrides)
             print(run.resolve());return
         if args.command=='vectorize':
@@ -109,9 +131,17 @@ def main(argv=None):
             from .meshing import write_stl
             from .pipeline import direct_raw
             p=load_profile(args.profile);p.require();d=register(read_svg(args.svg,args.width_mm));out=Path(args.output)
+            if args.prusa_config and args.backend!='prusa':raise ValueError('--prusa-config requires --backend prusa')
+            if args.infill is not None and not 0<=args.infill<=1:raise ValueError('--infill must be 0..1')
             write_stl(d.geometry,p.deposition_height_mm,out.with_suffix('.stl'))
-            if args.backend=='prusa':prusa_slice(out.with_suffix('.stl'),out,p,p.needle_inner_diameter_mm)
-            else:out.write_text(direct_raw(direct_paths(d.geometry,p),p),encoding='ascii')
+            if args.backend=='prusa':
+                prusa_slice(out.with_suffix('.stl'),out,p,p.needle_inner_diameter_mm,prusa_config=args.prusa_config,
+                    perimeters=args.perimeters,density=None if args.infill is None else args.infill*100,
+                    top=args.top_solid_layers,bottom=args.bottom_solid_layers)
+            else:
+                paths=direct_paths(d.geometry,p,1 if args.perimeters is None else args.perimeters,
+                    .2 if args.infill is None else args.infill,args.top_solid_layers or 0,args.bottom_solid_layers or 0)
+                out.write_text(direct_raw(paths,p),encoding='ascii')
             print('Untrusted raw slice; compose before upload:',out);return
         if args.command=='simulate':
             p,m=preflight(args.run,production=False)
